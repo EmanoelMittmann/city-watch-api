@@ -1,0 +1,57 @@
+import { RoleEnum } from 'src/app/shared/enums/role.enum';
+
+export class UserEntity {
+    private _id: number;
+    private _name: string;
+    private _email: string;
+    private _password: string;
+    private _location: {
+        x: string;
+        y: string;
+    };
+    private _role: RoleEnum;
+
+    public getId(): number {
+        return this._id;
+    }
+
+    public getName(): string {
+        return this._name;
+    }
+
+    public getEmail(): string {
+        return this._email;
+    }
+
+    public getPassword(): string {
+        return this._password;
+    }
+
+    public getLocation(): { x: string; y: string } {
+        return this._location;
+    }
+
+    public getRole(): RoleEnum {
+        return this._role;
+    }
+
+    public setId(input: number) {
+        this._id = input;
+    }
+
+    public setName(input: string) {
+        this._name = input;
+    }
+
+    public setEmail(input: string) {
+        this._email = input;
+    }
+
+    public setLocation(input: { x: string; y: string }) {
+        this._location = input;
+    }
+
+    public setRole(input: RoleEnum) {
+        this._role = input;
+    }
+}
