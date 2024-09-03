@@ -13,11 +13,31 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum RoleEnum {
+  ADMIN
+  USER
+}
+
+model Users {
+  id        Int      @id @default(autoincrement())
+  uuid      String   @unique() @default(uuid()) @db.Uuid()
+  name      String
+  email     String
+  password  String
+  role      RoleEnum @default(USER)
+  createdAt DateTime @default(now()) @map("created_at")
+  isActive  Boolean  @default(true) @map("is_active")
+  updatedAt DateTime @updatedAt() @map("updated_at")
+
+  @@map("users")
+}
+
+//example
 model LocationWrap {
-  id Int  @default(autoincrement()) @id
-  uuid String @db.Uuid() @unique() @default(uuid())
-  geolocationX Decimal @db.Decimal() @map("geo_location_x")
-  geolocationY Decimal @db.Decimal() @map("geo_location_y")
+  id           Int     @id @default(autoincrement())
+  uuid         String  @unique() @default(uuid()) @db.Uuid()
+  geolocationX Decimal @map("geo_location_x") @db.Decimal()
+  geolocationY Decimal @map("geo_location_y") @db.Decimal()
 
   @@map("location_wrap")
 }

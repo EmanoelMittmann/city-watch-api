@@ -20,7 +20,6 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     }
 
     public async validate(payload: JwtPayloadDto) {
-        //TODO [x]: implement validation of jwt and findById user
         const {userId} = await this.validateJwt(payload)
         const user = await this.userRepository.findById(userId)
 

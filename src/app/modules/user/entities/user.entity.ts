@@ -1,15 +1,19 @@
 import { RoleEnum } from 'src/app/shared/enums/role.enum';
 
 export class UserEntity {
-    private _id: number;
-    private _name: string;
-    private _email: string;
-    private _password: string;
-    private _location: {
+    _id: number;
+    _uuid: string
+    _name: string;
+    _email: string;
+    _password: string;
+    _isActive: boolean;
+    _location: {
         x: string;
         y: string;
     };
-    private _role: RoleEnum;
+    _role: RoleEnum;
+    _createdAt: Date;
+    _updatedAt: Date;
 
     public getId(): number {
         return this._id;
@@ -53,5 +57,9 @@ export class UserEntity {
 
     public setRole(input: RoleEnum) {
         this._role = input;
+    }
+
+    public setPassword(input: string) {
+        this._password = input;
     }
 }

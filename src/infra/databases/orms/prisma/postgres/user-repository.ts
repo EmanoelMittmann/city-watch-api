@@ -11,4 +11,16 @@ export class UserPostgresRepository implements IUserRepository {
         // TODO [] - Implements repository
         return new UserEntity()
     }
+
+    async createUser(user: UserEntity): Promise<void> {
+        await this.prisma.$transaction([
+            this.prisma.users.create({
+                data: {
+                    name: user.getName(),
+                    email: user.getEmail(),
+                    password: user.getPassword(),
+                }
+            })
+        ])
+    }
 }
