@@ -21,7 +21,8 @@
         "paths": {
             "@modules/*": ["src/app/modules/*"],
             "@shared/*": ["src/app/shared/*"],
-            "@databases/*": ["src/infra/databases/*"]
+            "@databases/*": ["src/infra/databases/*"],
+            "@gateways/*":["src/infra/gateways/*"],
         }
     },
     "exclude": ["node_modules", "build", "docs"],
