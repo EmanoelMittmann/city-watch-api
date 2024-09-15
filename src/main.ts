@@ -2,25 +2,38 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { PrismaService } from './infra/databases/orms/prisma/prisma.service';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+    const app = await NestFactory.create(AppModule);
 
-  app.enableCors({
-    origin: '*'
-  })
+    app.enableCors({
+        origin: '*',
+    });
 
-  app.useGlobalPipes(
-    new ValidationPipe({
-      transform: true,
-      whitelist: true
-    })
-  )
+    app.useGlobalPipes(
+        new ValidationPipe({
+            transform: true,
+            whitelist: true,
+        }),
+    );
 
-  const prismaService = app.get(PrismaService)
+    const config = new DocumentBuilder()
+        .addBearerAuth({
+            type: 'http',
+            scheme: 'bearer',
+            bearerFormat: 'JWT',
+        })
+        .setTitle('Omni CTW')
+        .build();
 
-  await prismaService.enableShutdownHooks(app)
+    const document = SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup('/doc', app, document);
 
-  await app.listen(3000);
+    const prismaService = app.get(PrismaService);
+
+    await prismaService.enableShutdownHooks(app);
+
+    await app.listen(3000);
 }
 bootstrap();

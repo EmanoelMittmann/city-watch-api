@@ -2,10 +2,12 @@ import { Body, Controller, HttpCode, HttpStatus, Post } from "@nestjs/common";
 import { RegisterUserDto } from "../dto/register-user.dto";
 import { IBaseMessageFeedback } from "@shared/contracts/base-message-feedback.contract";
 import { RegisterUserUseCase } from "../usecase/register-user.usecase";
-import { GenerateTokenAccessUseCase } from "../usecase/generate-token-access.usecase";
 import { LoginUseCase } from "../usecase/login.usecase";
 import { LoginUserDto } from "../dto/login-user.dto";
+import { ApiBearerAuth, ApiTags,ApiBody } from "@nestjs/swagger";
 
+@ApiBearerAuth()
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController{
     constructor(
