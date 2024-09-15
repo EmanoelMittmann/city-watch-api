@@ -1,22 +1,26 @@
 import { RoleEnum } from 'src/app/shared/enums/role.enum';
 
 export class UserEntity {
-    _id: number;
-    _uuid: string
-    _name: string;
-    _email: string;
-    _password: string;
-    _isActive: boolean;
+    private _id: number;
+    private _uuid: string
+    private _name: string;
+    private _email: string;
+    private _password: string;
+    private _isActive: boolean;
     _location: {
         x: string;
         y: string;
     };
-    _role: RoleEnum;
+    private _role: RoleEnum;
     _createdAt: Date;
     _updatedAt: Date;
 
     public getId(): number {
         return this._id;
+    }
+
+    public getUuid(): string {
+        return this._uuid
     }
 
     public getName(): string {
@@ -39,8 +43,16 @@ export class UserEntity {
         return this._role;
     }
 
+    public getIsActive(): boolean {
+        return this._isActive;
+    }
+
     public setId(input: number) {
         this._id = input;
+    }
+
+    public setUuid(uuid: string) {
+        this._uuid = uuid
     }
 
     public setName(input: string) {
@@ -61,5 +73,9 @@ export class UserEntity {
 
     public setPassword(input: string) {
         this._password = input;
+    }
+
+    public setIsActive(input: boolean) {
+        this._isActive = input
     }
 }

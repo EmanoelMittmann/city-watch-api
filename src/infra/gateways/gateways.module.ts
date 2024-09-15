@@ -1,7 +1,5 @@
 import { Module } from "@nestjs/common";
-import { AuthenticationModule } from "./authentication/authentication.module";
-
 @Module({
-    providers: [AuthenticationModule]
+    providers: []
 })
 export class GatewaysModule {}
