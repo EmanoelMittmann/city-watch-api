@@ -22,7 +22,7 @@ model Users {
   id        Int      @id @default(autoincrement())
   uuid      String   @unique() @default(uuid()) @db.Uuid()
   name      String
-  email     String
+  email     String 
   password  String
   role      RoleEnum @default(USER)
   createdAt DateTime @default(now()) @map("created_at")
