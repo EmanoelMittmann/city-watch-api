@@ -26,4 +26,19 @@ export class LocationPostgresRepository implements ILocationRepository{
             }
         })
     }
+
+    async updateLocation(data: LocationEntity): Promise<void> {
+        await this.prisma.localizations.update({
+            where:{
+                id: data.getId()
+            },
+            data: {
+                name: data.getName(),
+                description: data.getDescription(),
+                latitude: data.getLatitude(),
+                longitude: data.getLongitude()
+            }
+        })
+    }
+
 }
