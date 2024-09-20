@@ -8,6 +8,7 @@ import { UserModule } from './modules/user/user.module';
 import { GatewaysModule } from '@gateways/gateways.module';
 import { SecurityModule } from 'src/infra/security/security.module';
 import { JwtStrategy } from '@modules/auth/jwt.strategy';
+import { LocalizationsModule } from '@modules/locations/localizations.module';
 
 @Module({
     imports: [
@@ -29,6 +30,7 @@ import { JwtStrategy } from '@modules/auth/jwt.strategy';
         UserModule,
         GatewaysModule,
         SecurityModule,
+        LocalizationsModule
     ],
     controllers: [AppController],
     providers: [JwtStrategy],
