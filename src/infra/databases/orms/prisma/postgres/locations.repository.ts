@@ -1,21 +1,32 @@
-import { LocationEntity } from "@modules/locations/entities/location.entity";
-import { ILocationRepository } from "@modules/locations/repositories/location.repository";
+import { LocalizationEntity } from "@modules/locations/entities/localization.entity";
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma.service";
+import { IFetchLocation, LocalizationSerializer } from "../serializer/localization.serializer";
+import { ILocalizationRepository } from "@modules/locations/repositories/localization.repository";
 
 
 @Injectable()
-export class LocationPostgresRepository implements ILocationRepository{
+export class LocationPostgresRepository implements ILocalizationRepository{
     constructor(
         private readonly prisma: PrismaService
     ){}
 
-    fetchLocation(): Promise<LocationEntity[]> {
-        //TODO [] implement this service
-        throw new Error('Method not implement')
+    async fetchLocation(): Promise<LocalizationEntity[]> {
+        const data = await this.prisma.localizations.findMany({
+            select: {
+                id: true,
+                name: true,
+                description: true,
+                latitude: true,
+                longitude: true,
+                isIncident: true
+            }
+        }) as unknown as IFetchLocation[]
+
+        return LocalizationSerializer.transformManyToEntity(data)
     }
 
-    async saveLocation(data: LocationEntity): Promise<void> {
+    async saveLocation(data: LocalizationEntity): Promise<void> {
         await this.prisma.localizations.create({
             data: {
                 name: data.getName(),
@@ -27,7 +38,7 @@ export class LocationPostgresRepository implements ILocationRepository{
         })
     }
 
-    async updateLocation(data: LocationEntity): Promise<void> {
+    async updateLocation(data: LocalizationEntity): Promise<void> {
         await this.prisma.localizations.update({
             where:{
                 id: data.getId()

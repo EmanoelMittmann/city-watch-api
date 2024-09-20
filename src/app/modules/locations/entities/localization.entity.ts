@@ -1,6 +1,6 @@
 import { UserEntity } from "@modules/user/entities/user.entity"
 
-export class LocationEntity {
+export class LocalizationEntity {
     private id: number
     private name: string
     private description:string

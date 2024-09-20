@@ -1,20 +1,20 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { IUseCaseBaseContract } from "@shared/contracts/base-use-case.contract";
-import { ILocationRepository } from "../repositories/location.repository";
-import { SaveLocationDto } from "../dto/save-location.dto";
-import { LocationSerializer } from "../serializers/locations.serializers";
+import { ILocalizationRepository } from "../repositories/localization.repository";
+import { SaveLocationDto } from "../dto/save-localization.dto";
+import { LocalizationSerializer } from "../serializers/localizations.serializers";
 
 
 @Injectable()
 export class SaveLocationUseCase implements IUseCaseBaseContract {
     constructor(
-        @Inject('ILocationRepository')
-        private readonly locationRepository: ILocationRepository
+        @Inject('ILocalizationRepository')
+        private readonly locationRepository: ILocalizationRepository
     ){}
     
     execute(input: SaveLocationDto) {
 
-        const serialize = LocationSerializer.transformToSaveLocation(input)
+        const serialize = LocalizationSerializer.transformToSaveLocation(input)
 
         return this.locationRepository.saveLocation(serialize)
     }
