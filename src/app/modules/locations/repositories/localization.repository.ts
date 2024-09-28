@@ -4,4 +4,5 @@ export interface ILocalizationRepository {
     saveLocation(data: LocalizationEntity): Promise<void>
     fetchLocation(): Promise<LocalizationEntity[]>
     updateLocation(data: LocalizationEntity): Promise<void>
+    deleteById(id: number, userId: number): Promise<void>
 }

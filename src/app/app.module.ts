@@ -9,6 +9,7 @@ import { GatewaysModule } from '@gateways/gateways.module';
 import { SecurityModule } from 'src/infra/security/security.module';
 import { JwtStrategy } from '@modules/auth/jwt.strategy';
 import { LocalizationsModule } from '@modules/locations/localizations.module';
+import { AuthValidatorMiddleware } from '@modules/auth/middleware/auth-validator.middleware';
 
 @Module({
     imports: [
@@ -30,7 +31,7 @@ import { LocalizationsModule } from '@modules/locations/localizations.module';
         UserModule,
         GatewaysModule,
         SecurityModule,
-        LocalizationsModule
+        LocalizationsModule,
     ],
     controllers: [AppController],
     providers: [JwtStrategy],
@@ -39,7 +40,7 @@ import { LocalizationsModule } from '@modules/locations/localizations.module';
 export class AppModule {
     configure(consumer: MiddlewareConsumer) {
         consumer
-            .apply()
+            .apply(AuthValidatorMiddleware)
             .exclude(
                 {
                     path: '/auth/login',
