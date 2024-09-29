@@ -17,6 +17,8 @@ import { UpdateLocalizationDto } from '../dto/update-localization.dto';
 import { UpdateLocalizationUseCase } from '../usecases/update-localization.usecase';
 import { GetLocalizationUseCase } from '../usecases/get-localizations.usecase';
 import { AuthGuard } from '@modules/auth/guards/auth.guard';
+import { CustomHeaderListing } from '@shared/contracts/custom-header-listing.contract';
+import { GetLocalizationDto } from '../dto/get-localization.dto';
 
 @ApiBearerAuth()
 @ApiTags('Location')
@@ -31,7 +33,7 @@ export class LocationController {
     @Get()
     @HttpCode(HttpStatus.OK)
     @UseGuards(AuthGuard)
-    async fetchLocalization(){
+    async fetchLocalization(): Promise<CustomHeaderListing<GetLocalizationDto>> {
         return this.getLocalizationUseCase.execute()
     }
 
