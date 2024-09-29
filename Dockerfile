@@ -1,4 +1,5 @@
-FROM node:20.7.0-alpine3.15
+FROM node:20.7.0
+
 WORKDIR /usr/src/app
 
 COPY package*.json ./
@@ -9,9 +10,9 @@ COPY . .
 
 COPY .env ./
 
-RUN npm ci --omit=dev
-
 RUN npm run build:docker
+
+RUN npm ci --omit=dev
 
 EXPOSE 3000
 
