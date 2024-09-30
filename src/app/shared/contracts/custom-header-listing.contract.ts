@@ -15,3 +15,20 @@ export class CustomHeaderListing<T> {
         this.size = paginate.size;
     }
 }
+
+export class CustomPaginateHeader<T> extends CustomHeaderListing<T> {
+    
+        @ApiProperty()
+        page: number;
+
+        @ApiProperty()
+        final_page: number;
+    
+        constructor(
+            paginate: CustomPaginateHeader<T>
+        ){
+            super(paginate);
+            this.page = paginate.page;
+            this.final_page = paginate.final_page;
+        }
+}
