@@ -2,6 +2,7 @@ import { UserEntity } from '@modules/user/entities/user.entity';
 import { SaveLocationDto } from '../dto/save-localization.dto';
 import { LocalizationEntity } from '../entities/localization.entity';
 import { UpdateLocalizationUseCaseInputDto } from '../dto/update-localization.dto';
+import { GetLocalizationDto } from '../dto/get-localization.dto';
 
 export class LocalizationSerializer {
     static transformToSaveLocation(input: SaveLocationDto) {
@@ -32,7 +33,7 @@ export class LocalizationSerializer {
         return entity;
     }
 
-    static transformToGetLocalization(input: LocalizationEntity){
+    static transformToGetLocalization(input: LocalizationEntity): GetLocalizationDto{
         return {
             name: input.getName(),
             description: input.getDescription(),
@@ -42,7 +43,7 @@ export class LocalizationSerializer {
         }
     }
 
-    static transformToManyGetLocalization(input: LocalizationEntity[]){
+    static transformToManyGetLocalization(input: LocalizationEntity[]) : GetLocalizationDto[]{
         return input.map(this.transformToGetLocalization)
     }
 }
