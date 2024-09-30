@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Put, UseGuards } from "@nestjs/common";
-import { AuthGuard } from "@nestjs/passport";
+
 import { ApiBearerAuth, ApiParam, ApiTags } from "@nestjs/swagger";
 import { UpdateProblemDto } from "../dto/update-problem-dto";
 import { SaveProblemUseCase } from "../usecases/save-problems.usecase";
@@ -7,6 +7,7 @@ import { UpdateProblemUseCase } from "../usecases/update-problems.usecase";
 import { GetProblemUseCase } from "../usecases/get-problems.usecase";
 import {  DeleteProblemUseCase } from "../usecases/delete-problems.usecase";
 import { SaveProblemDto } from "../dto/save-problem.dto";
+import { AuthGuard } from "@modules/auth/guards/auth.guard";
 
 @ApiBearerAuth()
 @ApiTags('Problem')

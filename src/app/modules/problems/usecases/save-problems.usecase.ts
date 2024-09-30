@@ -7,7 +7,7 @@ import { ProblemSerializer } from "../serializers/problems.serializers"
 @Injectable()
 export class SaveProblemUseCase implements IUseCaseBaseContract {
     constructor(
-        @Inject('IProblemsRepository')
+        @Inject('IProblemRepository')
         private readonly problemRepository: IProblemRepository
     ){}
     

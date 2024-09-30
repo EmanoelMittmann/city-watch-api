@@ -20,6 +20,8 @@ import { GetLocalizationUseCase } from '../usecases/get-localizations.usecase';
 import { AuthGuard } from '@modules/auth/guards/auth.guard';
 import { CustomHeaderListing } from '@shared/contracts/custom-header-listing.contract';
 import { GetLocalizationDto } from '../dto/get-localization.dto';
+import { DeleteLocalizationUseCase } from '../usecases/delete-localizations.usecase';
+import { GetUserAuth } from '@shared/decorators/get-user-auth.decorator';
 
 @ApiBearerAuth()
 @ApiTags('Location')

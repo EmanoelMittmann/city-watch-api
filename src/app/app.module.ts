@@ -10,6 +10,7 @@ import { SecurityModule } from 'src/infra/security/security.module';
 import { JwtStrategy } from '@modules/auth/jwt.strategy';
 import { LocalizationsModule } from '@modules/locations/localizations.module';
 import { AuthValidatorMiddleware } from '@modules/auth/middleware/auth-validator.middleware';
+import { ProblemsModule } from '@modules/problems/problems.module';
 
 @Module({
     imports: [
@@ -32,6 +33,7 @@ import { AuthValidatorMiddleware } from '@modules/auth/middleware/auth-validator
         GatewaysModule,
         SecurityModule,
         LocalizationsModule,
+        ProblemsModule,
     ],
     controllers: [AppController],
     providers: [JwtStrategy],

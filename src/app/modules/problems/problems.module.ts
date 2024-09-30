@@ -17,6 +17,7 @@ import { ProblemPostgresRepository } from "@databases/orms/prisma/postgres/probl
         UpdateProblemUseCase,
         GetProblemUseCase,
         DeleteProblemUseCase
-    ]
+    ],
+    exports:["IProblemRepository"]
 })
 export class ProblemsModule {}
