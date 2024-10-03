@@ -20,6 +20,18 @@ export class UserPostgresRepository implements IUserRepository {
         return UserSerializer.FindById(byId)
     }
 
+    async findByUuid(uuid: string): Promise<UserEntity> {
+        const byUuid = await this.prisma.users.findUnique({
+            where: {
+                uuid
+            }
+        }) as unknown as IFindById
+
+        if(!byUuid) return null
+
+        return UserSerializer.FindById(byUuid)
+    }
+
     async createUser(user: UserEntity): Promise<void> {
         await this.prisma.$transaction([
             this.prisma.users.create({
