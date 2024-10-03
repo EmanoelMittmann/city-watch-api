@@ -19,25 +19,29 @@ enum RoleEnum {
 }
 
 model Users {
-  id        Int      @id @default(autoincrement())
-  uuid      String   @unique() @default(uuid()) @db.Uuid()
-  name      String
-  email     String
-  password  String
-  role      RoleEnum @default(USER)
-  createdAt DateTime @default(now()) @map("created_at")
-  isActive  Boolean  @default(true) @map("is_active")
-  updatedAt DateTime @updatedAt() @map("updated_at")
+  id            Int             @id @default(autoincrement())
+  uuid          String          @unique() @default(uuid()) @db.Uuid()
+  name          String
+  email         String
+  password      String
+  role          RoleEnum        @default(USER)
+  createdAt     DateTime        @default(now()) @map("created_at")
+  isActive      Boolean         @default(true) @map("is_active")
+  updatedAt     DateTime        @updatedAt() @map("updated_at")
+  Localizations Localizations[]
 
   @@map("users")
 }
 
-//example
-model LocationWrap {
-  id           Int     @id @default(autoincrement())
-  uuid         String  @unique() @default(uuid()) @db.Uuid()
-  geolocationX Decimal @map("geo_location_x") @db.Decimal()
-  geolocationY Decimal @map("geo_location_y") @db.Decimal()
+model Localizations {
+  id          Int     @id @default(autoincrement())
+  name        String  @db.VarChar(50)
+  description String  @db.VarChar(255)
+  longitude   Decimal @map("longitude") @db.Decimal()
+  latitude    Decimal @map("latitude") @db.Decimal()
+  isIncident  Boolean @default(false) @map("is_incident")
+  user        Users   @relation(fields: [userId], references: [id])
+  userId      Int     @map("user_id")
 
-  @@map("location_wrap")
+  @@map("localizations")
 }
