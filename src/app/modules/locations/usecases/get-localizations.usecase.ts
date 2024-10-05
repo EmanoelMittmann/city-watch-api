@@ -2,6 +2,7 @@ import { Inject } from "@nestjs/common";
 import { IUseCaseBaseContract } from "@shared/contracts/base-use-case.contract";
 import { ILocalizationRepository } from "../repositories/localization.repository";
 import { LocalizationSerializer } from "../serializers/localizations.serializers";
+import { CustomHeaderListing } from "@shared/contracts/custom-header-listing.contract";
 
 export class GetLocalizationUseCase implements IUseCaseBaseContract {
     constructor(
@@ -12,6 +13,11 @@ export class GetLocalizationUseCase implements IUseCaseBaseContract {
     async execute() {
         const getLocalization = await this.localizationRepository.fetchLocation()
 
-        return LocalizationSerializer.transformToManyGetLocalization(getLocalization)
+        const transform = LocalizationSerializer.transformToManyGetLocalization(getLocalization)
+
+        return new CustomHeaderListing({
+            data: transform,
+            size: transform.length
+        })
     }
 }

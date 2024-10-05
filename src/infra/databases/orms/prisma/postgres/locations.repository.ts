@@ -52,4 +52,12 @@ export class LocationPostgresRepository implements ILocalizationRepository{
         })
     }
 
+    async deleteById(id: number, userId: number): Promise<void> {
+        await this.prisma.localizations.delete({
+            where: {
+                id,
+                userId
+            }
+        })  
+    }
 }
