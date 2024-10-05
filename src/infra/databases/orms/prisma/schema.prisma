@@ -29,7 +29,7 @@ model Users {
   isActive      Boolean         @default(true) @map("is_active")
   updatedAt     DateTime        @updatedAt() @map("updated_at")
   Localizations Localizations[]
-  Warning       Warning?
+  Warning       Warning[]
 
   @@map("users")
 }
@@ -58,9 +58,9 @@ model Warning {
   userId      Int     @map("user_id") @unique
 
   @@map("warnings") 
- }
+}
  
-enum PROBLEM_TYPE{
+enum PROBLEM_TYPE {
   LACK_OF_ENERGY
   SANITATION
   HEALTH
