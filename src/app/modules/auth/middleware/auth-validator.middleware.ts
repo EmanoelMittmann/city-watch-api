@@ -4,7 +4,6 @@ import { JwtService } from "@nestjs/jwt";
 import { NextFunction, Request, Response } from "express";
 
 export class AuthValidatorMiddleware implements NestMiddleware {
-
     constructor(
         @Inject('IUserRepository')
         private readonly userRepository: IUserRepository,
@@ -23,13 +22,15 @@ export class AuthValidatorMiddleware implements NestMiddleware {
             })
         }
         
-        const existUser = await this.userRepository.findById(isValidToken.sub)
+        const existUser = await this.userRepository.findByUuid(isValidToken.sub)
 
         if(!existUser){
             throw new UnauthorizedException({
                 message: 'Usuário não existe'
             })
         }
+
+        req.user = existUser
 
         next()
     }

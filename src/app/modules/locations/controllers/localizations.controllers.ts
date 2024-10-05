@@ -1,6 +1,7 @@
 import {
     Body,
     Controller,
+    Delete,
     Get,
     HttpCode,
     HttpStatus,
@@ -17,6 +18,10 @@ import { UpdateLocalizationDto } from '../dto/update-localization.dto';
 import { UpdateLocalizationUseCase } from '../usecases/update-localization.usecase';
 import { GetLocalizationUseCase } from '../usecases/get-localizations.usecase';
 import { AuthGuard } from '@modules/auth/guards/auth.guard';
+import { CustomHeaderListing } from '@shared/contracts/custom-header-listing.contract';
+import { GetLocalizationDto } from '../dto/get-localization.dto';
+import { DeleteLocalizationUseCase } from '../usecases/delete-localizations.usecase';
+import { GetUserAuth } from '@shared/decorators/get-user-auth.decorator';
 
 @ApiBearerAuth()
 @ApiTags('Location')
@@ -25,13 +30,14 @@ export class LocationController {
     constructor(
         private readonly saveLocationUsecase: SaveLocationUseCase,
         private readonly updateLocazationUseCase: UpdateLocalizationUseCase,
-        private readonly getLocalizationUseCase: GetLocalizationUseCase
+        private readonly getLocalizationUseCase: GetLocalizationUseCase,
+        private readonly deleteLocalizationUseCase: DeleteLocalizationUseCase
     ) {}
 
     @Get()
     @HttpCode(HttpStatus.OK)
     @UseGuards(AuthGuard)
-    async fetchLocalization(){
+    async fetchLocalization(): Promise<CustomHeaderListing<GetLocalizationDto>> {
         return this.getLocalizationUseCase.execute()
     }
 
@@ -40,6 +46,24 @@ export class LocationController {
     @HttpCode(HttpStatus.OK)
     async location(@Body() body: SaveLocationDto): Promise<void> {
         return this.saveLocationUsecase.execute(body);
+    }
+
+    @Delete(':id')
+    @UseGuards(AuthGuard)
+    @ApiParam({
+        name: "id",
+        required: true,
+        type: Number
+    })
+    async deleteLocalization(
+        @Param('id', ParseIntPipe) id: number,
+        @GetUserAuth() user: any
+    ): Promise<void> {
+        const userId = user._id as any
+        return this.deleteLocalizationUseCase.execute({
+            id,
+            userId
+        })
     }
 
     @Put(':id')
