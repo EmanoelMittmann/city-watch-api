@@ -36,4 +36,20 @@ export class WarningPostgresRepository implements IWarningRepository {
             }
         });
     }
+
+    async existBindUser(userid: string): Promise<boolean> {
+        const findUser = await this.prisma.warning.findFirst({
+            where: {
+                user: {
+                    uuid: userid
+                }
+            }
+        })
+
+        if(findUser){
+            return true;
+        }
+
+        return false;
+    }
 }

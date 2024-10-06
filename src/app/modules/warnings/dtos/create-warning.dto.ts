@@ -1,6 +1,6 @@
 import { SaveLocationDto } from "@modules/locations/dto/save-localization.dto";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString } from "class-validator";
+import { IsObject, IsString } from "class-validator";
 
 export class CreateWarningDto{
     @ApiProperty()
@@ -12,8 +12,8 @@ export class CreateWarningDto{
     description: string;
 
     @ApiProperty()
-    @IsString()
-    localization: Omit<SaveLocationDto, 'userId'>
+    @IsObject()
+    localization: Exclude<SaveLocationDto, 'userId'>
 }
 
 export class CreateWarningBehaviorDto extends CreateWarningDto{
