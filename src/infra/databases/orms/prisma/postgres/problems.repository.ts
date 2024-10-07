@@ -63,4 +63,35 @@ export class ProblemPostgresRepository implements IProblemRepository{
             }
         })  
     }
+
+    async findById(id: number): Promise<ProblemEntity | null> {
+        const problem = await this.prisma.problems.findUnique({
+            where: { id },
+            select: {
+                id: true,
+                name: true,
+                address: true,
+                description: true,
+                latitude: true,
+                longitude: true,
+                photo: true,
+                problemType: true,
+            }
+        });
+    
+        if (!problem) {
+            return null;
+        }
+    
+        // Converte latitude e longitude de Decimal para number
+        const transformedProblem = {
+            ...problem,
+            latitude: problem.latitude.toNumber(),  // Converte Decimal para number
+            longitude: problem.longitude.toNumber() // Converte Decimal para number
+        } as IFetchProblem;
+    
+        // Usa o serializer para transformar os dados retornados em uma entidade
+        return ProblemSerializer.transformToEntity(transformedProblem);
+    }
+    
 }
