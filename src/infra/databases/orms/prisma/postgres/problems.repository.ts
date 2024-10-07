@@ -81,16 +81,14 @@ export class ProblemPostgresRepository implements IProblemRepository{
     
         if (!problem) {
             return null;
-        }
-    
-        // Converte latitude e longitude de Decimal para number
+        } 
+        
         const transformedProblem = {
             ...problem,
-            latitude: problem.latitude.toNumber(),  // Converte Decimal para number
-            longitude: problem.longitude.toNumber() // Converte Decimal para number
+            latitude: problem.latitude.toNumber(),  
+            longitude: problem.longitude.toNumber() 
         } as IFetchProblem;
     
-        // Usa o serializer para transformar os dados retornados em uma entidade
         return ProblemSerializer.transformToEntity(transformedProblem);
     }
     
