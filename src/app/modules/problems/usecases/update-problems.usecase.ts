@@ -11,7 +11,7 @@ export class UpdateProblemUseCase implements IUseCaseBaseContract {
     ) {}
 
     async execute(input: UpdateProblemUseCaseInputDto) {
-        // Verifique se o problema existe
+        
         const existingProblem = await this.problemRepository.findById(input.id);
 
         if (!existingProblem) {
