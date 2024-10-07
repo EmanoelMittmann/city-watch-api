@@ -3,6 +3,7 @@ import { WarningController } from "./controllers/warning.controller";
 import { WarningPostgresRepository } from "@databases/orms/prisma/postgres/warning.repository";
 import { LocalizationsModule } from "@modules/locations/localizations.module";
 import { CreateWarningUseCase } from "./usecases/create-warning.usecase";
+import { ListAllWarningsUseCase } from "./usecases/list-all-warnings.usecase";
 
 @Module(
     {
@@ -13,7 +14,8 @@ import { CreateWarningUseCase } from "./usecases/create-warning.usecase";
                 provide: 'IWarningRepository',
                 useClass: WarningPostgresRepository
             },
-            CreateWarningUseCase
+            CreateWarningUseCase,
+            ListAllWarningsUseCase
         ]
     }
 )
