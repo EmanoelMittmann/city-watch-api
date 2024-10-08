@@ -36,7 +36,7 @@ export class ProblemController {
     @Delete(':id')
     @UseGuards(AuthGuard)
     @ApiParam({
-        name: "idaccess_token",
+        name: "id",
         required: true,
         type: Number
     })
