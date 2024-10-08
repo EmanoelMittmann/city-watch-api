@@ -13,7 +13,7 @@ export class DeleteProblemUseCase implements IUseCaseBaseContract {
         const problem = await this.problemRepository.findById(input.id);
 
         if (!problem) {
-            throw new NotFoundException(`ID: ${input.id} not found`);
+            throw new NotFoundException(`This problem is not found`);
         }
 
         return this.problemRepository.deleteById(input.id);
