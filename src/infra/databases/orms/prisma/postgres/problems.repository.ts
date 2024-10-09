@@ -92,4 +92,28 @@ export class ProblemPostgresRepository implements IProblemRepository{
         return ProblemSerializer.transformToEntity(transformedProblem);
     }
     
+    async findSameProblem(data: ProblemEntity): Promise<ProblemEntity | null> {
+        const problem = await this.prisma.problems.findFirst({
+            where: {
+                name: data.getName(),
+                address: data.getAddress(),
+                description: data.getDescription(),
+                latitude: data.getLatitude(),
+                longitude: data.getLongitude(),
+            },
+        });
+ 
+        if (!problem) {
+            return null;
+        }
+    
+        const transformedProblem = {
+            ...problem,
+            latitude: problem.latitude.toNumber(),  
+            longitude: problem.longitude.toNumber() 
+        };
+    
+        return ProblemSerializer.transformToEntity(transformedProblem as IFetchProblem);
+    }
+    
 }
