@@ -5,4 +5,6 @@ export interface IProblemRepository{
     fetchProblem(): Promise<ProblemEntity[]>
     updateProblem(data: ProblemEntity): Promise<void>
     deleteById(id: number): Promise<void>
+    findById(id: number): Promise<ProblemEntity | null>;
+    findSameProblem(data: ProblemEntity): Promise<ProblemEntity | null>;
 }
