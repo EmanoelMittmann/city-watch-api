@@ -1,10 +1,11 @@
 import { AuthGuard } from "@modules/auth/guards/auth.guard";
-import { Body, Controller, HttpCode, Logger, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, HttpCode, Logger, Post, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { CreateWarningDto } from "../dtos/create-warning.dto";
 import { GetUserAuth } from "@shared/decorators/get-user-auth.decorator";
 import { UserEntity } from "@modules/user/entities/user.entity";
 import { CreateWarningUseCase } from "../usecases/create-warning.usecase";
+import { ListAllWarningsUseCase } from "../usecases/list-all-warnings.usecase";
 
 @ApiBearerAuth()
 @ApiTags('Warning')
@@ -12,7 +13,8 @@ import { CreateWarningUseCase } from "../usecases/create-warning.usecase";
 export class WarningController{ 
     private readonly logger: Logger = new Logger(WarningController.name);
     constructor(
-        private readonly createWarningUseCase: CreateWarningUseCase
+        private readonly createWarningUseCase: CreateWarningUseCase,
+        private readonly listAllWarningsUseCase: ListAllWarningsUseCase
     ){}
 
     @Post()
@@ -28,5 +30,12 @@ export class WarningController{
             localization: body.localization,
             title: body.title
         });
+    }
+
+    @Get()
+    @HttpCode(200)
+    @UseGuards(AuthGuard)
+    async listAllWarnings(){
+        return this.listAllWarningsUseCase.execute();
     }
 }

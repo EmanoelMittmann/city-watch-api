@@ -2,6 +2,7 @@ import { Inject } from "@nestjs/common"
 import { IUseCaseBaseContract } from "@shared/contracts/base-use-case.contract"
 import { IProblemRepository } from "../repositories/problem.repository"
 import { ProblemSerializer } from "../serializers/problems.serializers"
+import { CustomHeaderListing } from "@shared/contracts/custom-header-listing.contract"
 
 export class GetProblemUseCase implements IUseCaseBaseContract {
     constructor(
@@ -12,6 +13,12 @@ export class GetProblemUseCase implements IUseCaseBaseContract {
     async execute() {
         const getProblems = await this.problemRepository.fetchProblem()
 
-        return ProblemSerializer.transformToManyGetProblem(getProblems)
+        
+        const transform = ProblemSerializer.transformToManyGetProblem(getProblems)
+
+        return new CustomHeaderListing({
+            data: transform,
+            size: transform.length
+        })
     }
 }

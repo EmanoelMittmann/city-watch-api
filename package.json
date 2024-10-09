@@ -1,8 +1,9 @@
 {
     "name": "city-watch-api",
-    "version": "0.0.1",
+    "version": "0.2.1",
     "description": "",
-    "author": "",
+    "author": "Emanoel Leffa Mittmann de Oliveira",
+    "email": "emanoelmittmann@hotmail.com",
     "private": true,
     "license": "UNLICENSED",
     "scripts": {
@@ -13,7 +14,7 @@
         "docker:start": "docker compose start postgres",
         "start:warmup": "npm run prisma:generate && npx prisma migrate deploy && npm run start:dev",
         "build:container": "docker build -t city-watch .",
-        "start:container": "docker run -dp 127.0.0.1:3000:3000 city-watch-test",
+        "start:container": "docker run -dp 127.0.0.1:3000:3000 city-watch",
         "start:dev": "nest start --watch",
         "start:debug": "nest start --debug --watch",
         "start:prod": "node dist/main",
