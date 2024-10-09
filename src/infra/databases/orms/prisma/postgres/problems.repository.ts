@@ -81,8 +81,8 @@ export class ProblemPostgresRepository implements IProblemRepository{
     
         if (!problem) {
             return null;
-        } 
-        
+        }
+    
         const transformedProblem = {
             ...problem,
             latitude: problem.latitude.toNumber(),  
