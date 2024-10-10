@@ -29,24 +29,38 @@ model Users {
   isActive      Boolean         @default(true) @map("is_active")
   updatedAt     DateTime        @updatedAt() @map("updated_at")
   Localizations Localizations[]
+  Warning       Warning[]
 
   @@map("users")
 }
 
 model Localizations {
-  id          Int     @id @default(autoincrement())
-  name        String  @db.VarChar(50)
-  description String  @db.VarChar(255)
-  longitude   Decimal @map("longitude") @db.Decimal()
-  latitude    Decimal @map("latitude") @db.Decimal()
-  isIncident  Boolean @default(false) @map("is_incident")
-  user        Users   @relation(fields: [userId], references: [id])
-  userId      Int     @map("user_id")
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(50)
+  description String   @db.VarChar(255)
+  longitude   Decimal  @map("longitude") @db.Decimal()
+  latitude    Decimal  @map("latitude") @db.Decimal()
+  isIncident  Boolean  @default(false) @map("is_incident")
+  user        Users    @relation(fields: [userId], references: [id])
+  userId      Int      @map("user_id")
+  Warning     Warning?
 
   @@map("localizations")
 }
 
-enum PROBLEM_TYPE{
+model Warning {
+  id             Int           @id @default(autoincrement())
+  title          String        @db.VarChar(50)
+  description    String        @db.VarChar(255)
+  localization   Localizations @relation(fields: [localizationId], references: [id])
+  localizationId Int           @unique @map("localization_id")
+  user        Users   @relation(fields: [userId], references: [id])
+  userId      Int     @map("user_id") @unique
+
+  @@map("warnings") 
+}
+ 
+enum PROBLEM_TYPE {
   LACK_OF_ENERGY
   SANITATION
   HEALTH

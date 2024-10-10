@@ -63,4 +63,57 @@ export class ProblemPostgresRepository implements IProblemRepository{
             }
         })  
     }
+
+    async findById(id: number): Promise<ProblemEntity | null> {
+        const problem = await this.prisma.problems.findUnique({
+            where: { id },
+            select: {
+                id: true,
+                name: true,
+                address: true,
+                description: true,
+                latitude: true,
+                longitude: true,
+                photo: true,
+                problemType: true,
+            }
+        });
+    
+        if (!problem) {
+            return null;
+        }
+    
+        const transformedProblem = {
+            ...problem,
+            latitude: problem.latitude.toNumber(),  
+            longitude: problem.longitude.toNumber() 
+        } as IFetchProblem;
+    
+        return ProblemSerializer.transformToEntity(transformedProblem);
+    }
+    
+    async findSameProblem(data: ProblemEntity): Promise<ProblemEntity | null> {
+        const problem = await this.prisma.problems.findFirst({
+            where: {
+                name: data.getName(),
+                address: data.getAddress(),
+                description: data.getDescription(),
+                latitude: data.getLatitude(),
+                longitude: data.getLongitude(),
+            },
+        });
+ 
+        if (!problem) {
+            return null;
+        }
+    
+        const transformedProblem = {
+            ...problem,
+            latitude: problem.latitude.toNumber(),  
+            longitude: problem.longitude.toNumber() 
+        };
+    
+        return ProblemSerializer.transformToEntity(transformedProblem as IFetchProblem);
+    }
+    
 }

@@ -9,6 +9,7 @@ import { GatewaysModule } from '@gateways/gateways.module';
 import { SecurityModule } from 'src/infra/security/security.module';
 import { JwtStrategy } from '@modules/auth/jwt.strategy';
 import { LocalizationsModule } from '@modules/locations/localizations.module';
+import { WarningModule } from '@modules/warnings/warning.module';
 import { AuthValidatorMiddleware } from '@modules/auth/middleware/auth-validator.middleware';
 import { ProblemsModule } from '@modules/problems/problems.module';
 
@@ -30,6 +31,7 @@ import { ProblemsModule } from '@modules/problems/problems.module';
         PrismaModule,
         AuthModule,
         UserModule,
+        WarningModule,
         GatewaysModule,
         SecurityModule,
         LocalizationsModule,

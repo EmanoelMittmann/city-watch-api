@@ -15,13 +15,27 @@ export class AuthGuard implements CanActivate {
     ): Promise<boolean> {
         const request = context.switchToHttp().getRequest()
 
-        if(request.headers.authorization == null) {
+        if(request.headers.authorization == null || request.headers.authorization == undefined){
             throw new ForbiddenException({
                 status: 401,
                 message: "É necessario estar logado pra usar essas funções"
             })
         }
         const [prefix, token] = request.headers.authorization.split(' ') ?? []
+
+        if(!token){
+            throw new ForbiddenException({
+                status: 401,
+                message: "É necessario informar o token"
+            })
+        }
+
+        if(!prefix.trim() || prefix == undefined){
+            throw new ForbiddenException({
+                status: 401,
+                message: "É necessario informar o tipo do token"
+            })
+        }
 
         if(prefix !== "Bearer"){
             throw new ForbiddenException({
@@ -31,11 +45,10 @@ export class AuthGuard implements CanActivate {
         }
 
         try {
-            const payload = await this.jwtService.verifyAsync(token.trim(), {
+            await this.jwtService.verifyAsync(token.trim(), {
                 secret: process.env.JWT_SECRET
             })
             
-            request['user'] = payload
         } catch (error) {
             this.logger.verbose(error)
             throw new UnauthorizedException({
