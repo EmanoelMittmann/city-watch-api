@@ -16,7 +16,8 @@ import { ListAllWarningsUseCase } from "./usecases/list-all-warnings.usecase";
             },
             CreateWarningUseCase,
             ListAllWarningsUseCase
-        ]
+        ],
+        exports:['IWarningRepository']
     }
 )
 export class WarningModule {}
