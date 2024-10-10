@@ -9,6 +9,9 @@ import { GatewaysModule } from '@gateways/gateways.module';
 import { SecurityModule } from 'src/infra/security/security.module';
 import { JwtStrategy } from '@modules/auth/jwt.strategy';
 import { LocalizationsModule } from '@modules/locations/localizations.module';
+import { WarningModule } from '@modules/warnings/warning.module';
+import { AuthValidatorMiddleware } from '@modules/auth/middleware/auth-validator.middleware';
+import { ProblemsModule } from '@modules/problems/problems.module';
 
 @Module({
     imports: [
@@ -28,9 +31,11 @@ import { LocalizationsModule } from '@modules/locations/localizations.module';
         PrismaModule,
         AuthModule,
         UserModule,
+        WarningModule,
         GatewaysModule,
         SecurityModule,
-        LocalizationsModule
+        LocalizationsModule,
+        ProblemsModule,
     ],
     controllers: [AppController],
     providers: [JwtStrategy],
@@ -39,8 +44,12 @@ import { LocalizationsModule } from '@modules/locations/localizations.module';
 export class AppModule {
     configure(consumer: MiddlewareConsumer) {
         consumer
-            .apply()
+            .apply(AuthValidatorMiddleware)
             .exclude(
+                {
+                    path:"/",
+                    method: RequestMethod.ALL,
+                },
                 {
                     path: '/auth/login',
                     method: RequestMethod.POST,
