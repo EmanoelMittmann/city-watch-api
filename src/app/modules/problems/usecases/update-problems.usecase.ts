@@ -15,7 +15,7 @@ export class UpdateProblemUseCase implements IUseCaseBaseContract {
         const existingProblem = await this.problemRepository.findById(input.id);
 
         if (!existingProblem) {
-            throw new NotFoundException(`ID ${input.id} not found`);
+            throw new NotFoundException(`Problem not found`);
         }
 
         const serializer = ProblemSerializer.transformToUpdateProblem(input);

@@ -1,3 +1,4 @@
+import { UpdateUserUseCaseInputDto } from "../dtos/update-user-dto";
 import { UserEntity } from "../entities/user.entity";
 
 interface IRegisterUserSerialize {
@@ -15,5 +16,15 @@ export class UserSerializer {
         entity.setPassword(input.password)
 
         return entity
+    }
+
+    static transformToUpdateUser(input: UpdateUserUseCaseInputDto) {
+        const entity = new UserEntity()
+
+        entity.setId(input.id);
+        entity.setName(input.name);
+        entity.setPassword(input.password)
+
+        return entity;
     }
 }
