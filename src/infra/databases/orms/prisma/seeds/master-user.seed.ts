@@ -1,4 +1,4 @@
-import { DEFAULT_USERS_MOCKS } from '@databases/mocks/users/default-user.mock'
+import {DEFAULT_USERS_MOCKS} from '../../../mocks/users/default-user.mock'
 import {PRISMA} from './main.seed'
 import { SecurityRepository } from 'src/infra/security/repository/security.repository'
 
