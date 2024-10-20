@@ -1,4 +1,4 @@
-import { RoleEnum } from "@shared/enums/role.enum";
+import { RoleEnum } from "../../../../app/shared/enums/role.enum";
 
 
 export const DEFAULT_USERS_MOCKS = [
