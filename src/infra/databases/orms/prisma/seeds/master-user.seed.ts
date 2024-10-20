@@ -1,6 +1,6 @@
 import {DEFAULT_USERS_MOCKS} from '../../../mocks/users/default-user.mock'
 import {PRISMA} from './main.seed'
-import { SecurityRepository } from 'src/infra/security/repository/security.repository'
+import { SecurityRepository } from '../../../../security/repository/security.repository'
 
 export function generateMastersUsersSeed(){
     console.info("\x1b[32m", "-----SEED:USERS------")
