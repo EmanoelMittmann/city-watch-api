@@ -5,4 +5,5 @@ export interface IUserRepository {
     findByUuid(uuid: string): Promise<UserEntity>
     findByEmail(email: string): Promise<UserEntity>
     createUser(user: UserEntity): Promise<void>
+    updateUser(data: UserEntity): Promise<void>
 }
