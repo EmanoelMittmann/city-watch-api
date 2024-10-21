@@ -47,6 +47,10 @@ export class AppModule {
             .apply(AuthValidatorMiddleware)
             .exclude(
                 {
+                    path:"/",
+                    method: RequestMethod.ALL,
+                },
+                {
                     path: '/auth/login',
                     method: RequestMethod.POST,
                 },
