@@ -53,7 +53,7 @@ export class ProblemSerializer {
             latitude: input.getLatitude(),
             longitude: input.getLongitude(),
             photo: input.getPhoto(),
-            problemType: ProblemSerializer.mapProblemTypeToNumber(input.getProblemType()), // Chame o método estático pela classe
+            problemType: ProblemSerializer.mapProblemTypeToNumber(input.getProblemType()), 
         };
     }
 
