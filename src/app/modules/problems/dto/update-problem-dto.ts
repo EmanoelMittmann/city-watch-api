@@ -29,9 +29,9 @@ export class UpdateProblemDto{
     @IsString()
     photo: string
 
-    @ApiProperty()
-    @IsEnum(PROBLEM_TYPE)
-    problemType: PROBLEM_TYPE
+    @ApiProperty({ enum: [1, 2, 3, 4, 5] })
+    @IsNumber()
+    problemType: number;
 }
 
 

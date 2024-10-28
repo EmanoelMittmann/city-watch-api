@@ -63,8 +63,9 @@ model Warning {
 enum PROBLEM_TYPE {
   LACK_OF_ENERGY
   SANITATION
-  HEALTH
+  INFRASTRUCTURE
   RISK_AREA
+  OTHERS
 }
 
 model Problems {
