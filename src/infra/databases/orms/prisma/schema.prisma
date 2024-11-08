@@ -70,6 +70,7 @@ enum PROBLEM_TYPE {
 
 model Problems {
   id          Int     @id @default(autoincrement())
+  uuid        String  @unique() @default(uuid()) @db.Uuid()
   name        String  @db.VarChar(50)
   address     String  @db.VarChar(255)
   description String  @db.VarChar(255)
