@@ -22,14 +22,14 @@ export class ProblemController {
     @Get()
     @HttpCode(HttpStatus.OK)
     @UseGuards(AuthGuard)
-    async fetchLocalization(){
+    async fetchProblem(){
         return this.getProblemUseCase.execute()
     }
 
     @Post()
     @UseGuards(AuthGuard)
     @HttpCode(HttpStatus.OK)
-    async location(@Body() body: SaveProblemDto): Promise<void> {
+    async problem(@Body() body: SaveProblemDto): Promise<void> {
         return this.saveProblemUsecase.execute(body);
     }
 
@@ -40,7 +40,7 @@ export class ProblemController {
         required: true,
         type: Number
     })
-    async deleteLocalization(
+    async deleteProblem(
         @Param('id', ParseIntPipe) id: number,     
     ): Promise<void> {
         return this.deleteProblemUseCase.execute({
@@ -56,7 +56,7 @@ export class ProblemController {
         type: Number
     })
     @HttpCode(HttpStatus.OK)
-    async updateLocation(
+    async updateProblem(
         @Body() body: UpdateProblemDto,
         @Param('id', ParseIntPipe) param: number,
     ): Promise<void> {
