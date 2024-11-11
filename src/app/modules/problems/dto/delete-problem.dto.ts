@@ -1,8 +1,10 @@
-import { IsNumber } from "class-validator"
+import { ApiProperty } from "@nestjs/swagger";
+import { IsNotEmpty, IsNumber, IsString } from "class-validator"
 
 export class DeleteProblemUseCaseInput {
-    @IsNumber()
-    id: number
-
+    @ApiProperty()
+    @IsString()
+    @IsNotEmpty()
+    uuid: string;
 
 }

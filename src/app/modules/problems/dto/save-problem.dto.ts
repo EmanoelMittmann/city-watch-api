@@ -3,6 +3,7 @@ import { PROBLEM_TYPE } from "@prisma/client"
 import { IsBoolean, IsDecimal, IsEnum, IsNotEmpty, IsNumber, IsString } from "class-validator"
 
 export class SaveProblemDto {
+    
     @ApiProperty()
     @IsString()
     @IsNotEmpty()

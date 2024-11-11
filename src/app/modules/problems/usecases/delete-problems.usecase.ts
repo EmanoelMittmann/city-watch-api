@@ -10,12 +10,12 @@ export class DeleteProblemUseCase implements IUseCaseBaseContract {
     ) {}
 
     async execute(input: DeleteProblemUseCaseInput) {
-        const problem = await this.problemRepository.findById(input.id);
+        const problem = await this.problemRepository.findByUuid(input.uuid);
 
         if (!problem) {
             throw new NotFoundException(`This problem is not found`);
         }
 
-        return this.problemRepository.deleteById(input.id);
+        return this.problemRepository.deleteByUuid(input.uuid);
     }
 }
