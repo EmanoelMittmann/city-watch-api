@@ -3,6 +3,7 @@ import { PROBLEM_TYPE } from "@prisma/client"
 
 export class ProblemEntity{
     private id: number
+    private uuid: string
     private name: string
     private description:string
     private longitude: number
@@ -17,6 +18,14 @@ export class ProblemEntity{
 
     public setId(id: number): void {
         this.id = id;
+    }
+
+    public getUuid(): string {
+        return this.uuid
+    }
+
+    public setUuid(uuid: string) {
+        this.uuid = uuid
     }
 
     public getName(): string {
