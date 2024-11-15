@@ -40,6 +40,7 @@ export class UserPostgresRepository implements IUserRepository {
                     name: user.getName(),
                     email: user.getEmail(),
                     password: user.getPassword(),
+                    photo: user.getPhoto(),
                 }
             })
         ])
@@ -56,6 +57,7 @@ export class UserPostgresRepository implements IUserRepository {
                 name: true,
                 email: true,
                 password: true,
+                photo: true,
                 role: true,
                 isActive: true,
             }
@@ -69,12 +71,13 @@ export class UserPostgresRepository implements IUserRepository {
     async updateUser(data: UserEntity): Promise<void> {
         await this.prisma.users.update({
             where:{
-                id: data.getId()
+                uuid: data.getUuid()
             },
             data: {
                 name: data.getName(),
                 email: data.getEmail(),
                 password: data.getPassword(),
+                photo: data.getPhoto()
             }
         })
     }
