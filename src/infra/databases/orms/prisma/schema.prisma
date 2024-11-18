@@ -24,6 +24,7 @@ model Users {
   name          String
   email         String
   password      String
+  photo         String?          @db.VarChar(255)
   role          RoleEnum        @default(USER)
   createdAt     DateTime        @default(now()) @map("created_at")
   isActive      Boolean         @default(true) @map("is_active")

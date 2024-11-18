@@ -7,6 +7,7 @@ export interface IFindByEmail {
     name: string;
     email: string;
     password: string;
+    photo: string;
     role: RoleEnum;
     isActive: boolean;
 }
@@ -17,6 +18,7 @@ export interface IFindById {
     name: string;
     email: string;
     password: string;
+    photo: string;
     role: RoleEnum;
     createdAt: Date;
     isActive: boolean;
@@ -41,6 +43,7 @@ export class UserSerializer {
         entity.setUuid(input.uuid);
         entity.setName(input.name);
         entity.setEmail(input.email);
+        entity.setPhoto(input.email);
         entity.setRole(input.role), entity.setPassword(input.password);
 
         return entity;

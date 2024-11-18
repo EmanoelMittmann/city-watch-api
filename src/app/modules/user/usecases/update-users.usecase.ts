@@ -13,7 +13,7 @@ export class UpdateUserUseCase implements IUseCaseBaseContract {
 
     async execute(input: UpdateUserUseCaseInputDto) {
         
-        const existingUser = await this.userRepository.findById(input.id);
+        const existingUser = await this.userRepository.findByUuid(input.uuid);
 
         if (!existingUser) {
             throw new NotFoundException(`User not found`);

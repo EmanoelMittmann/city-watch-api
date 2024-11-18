@@ -7,4 +7,9 @@ export class RegisterUserDto extends LoginUserDto {
     @IsString()
     @IsNotEmpty()
     name: string
+
+    @ApiProperty()
+    @IsString()
+    photo: string
+
 }
