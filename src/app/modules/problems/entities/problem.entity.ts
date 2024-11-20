@@ -11,6 +11,24 @@ export class ProblemEntity{
     private address: string
     private photo: string 
     private problemType: PROBLEM_TYPE
+    private createdAt: Date;
+    private updatedAt: Date;
+
+    public getCreatedAt(): Date {
+        return this.createdAt;
+    }
+
+    public setCreatedAt(createdAt: Date): void {
+        this.createdAt = createdAt;
+    }
+
+    public getUpdatedAt(): Date {
+        return this.updatedAt;
+    }
+
+    public setUpdatedAt(updatedAt: Date): void {
+        this.updatedAt = updatedAt;
+    }
 
     public getId(): number {
         return this.id;

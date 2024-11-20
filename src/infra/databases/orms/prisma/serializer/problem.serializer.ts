@@ -11,6 +11,8 @@ export interface IFetchProblem {
     latitude: number;
     photo: string;
     problemType: PROBLEM_TYPE;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 export class ProblemSerializer {
@@ -26,6 +28,8 @@ export class ProblemSerializer {
         entity.setLongitude(input.longitude)
         entity.setPhoto(input.photo)
         entity.setProblemType(input.problemType)
+        entity.setCreatedAt(input.createdAt)
+        entity.setUpdatedAt(input.updatedAt)
 
         return entity
     }

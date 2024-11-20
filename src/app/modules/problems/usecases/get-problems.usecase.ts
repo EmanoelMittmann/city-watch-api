@@ -13,7 +13,6 @@ export class GetProblemUseCase implements IUseCaseBaseContract {
     async execute() {
         const getProblems = await this.problemRepository.fetchProblem()
 
-        
         const transform = ProblemSerializer.transformToManyGetProblem(getProblems)
 
         return new CustomHeaderListing({

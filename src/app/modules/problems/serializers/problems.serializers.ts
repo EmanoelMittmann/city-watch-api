@@ -55,6 +55,8 @@ export class ProblemSerializer {
             longitude: input.getLongitude(),
             photo: input.getPhoto(),
             problemType: ProblemSerializer.mapProblemTypeToNumber(input.getProblemType()), 
+            createdAt: input.getCreatedAt(),
+            updatedAt: input.getUpdatedAt()
         };
     }    
 

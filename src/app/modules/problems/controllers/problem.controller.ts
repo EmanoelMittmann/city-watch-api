@@ -30,6 +30,7 @@ export class ProblemController {
     async fetchProblem(): Promise<CustomHeaderListing<GetProblemDto>> {
         return this.getProblemUseCase.execute()
     }
+    
     @Post()
     @UseGuards(AuthGuard)
     @HttpCode(HttpStatus.OK)

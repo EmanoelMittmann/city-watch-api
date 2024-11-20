@@ -22,6 +22,8 @@ export class ProblemPostgresRepository implements IProblemRepository {
                 longitude: true,
                 photo: true,
                 problemType: true,  
+                createdAt: true,
+                updatedAt: true,
             }
         }) as unknown as IFetchProblem[];
 
