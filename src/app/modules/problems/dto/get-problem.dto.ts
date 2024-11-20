@@ -33,4 +33,12 @@ export class GetProblemDto {
 
     @ApiProperty({ enum: [1, 2, 3, 4, 5] })
     problemType: number;
+
+    @ApiProperty()
+    @IsString()
+    createdAt: Date;
+
+    @ApiProperty()
+    @IsString()
+    updatedAt: Date;
 }
