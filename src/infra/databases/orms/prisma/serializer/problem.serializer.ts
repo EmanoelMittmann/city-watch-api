@@ -2,7 +2,8 @@ import { ProblemEntity } from "@modules/problems/entities/problem.entity";
 import { PROBLEM_TYPE } from "@prisma/client";
 
 export interface IFetchProblem {
-    id: number
+    id: number;
+    uuid: string;
     name: string;
     address: string;
     description: string;
@@ -10,6 +11,8 @@ export interface IFetchProblem {
     latitude: number;
     photo: string;
     problemType: PROBLEM_TYPE;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 export class ProblemSerializer {
@@ -17,6 +20,7 @@ export class ProblemSerializer {
         const entity = new ProblemEntity()
 
         entity.setId(input.id)
+        entity.setUuid(input.uuid)
         entity.setName(input.name)
         entity.setAddress(input.address)
         entity.setDescription(input.description)
@@ -24,6 +28,8 @@ export class ProblemSerializer {
         entity.setLongitude(input.longitude)
         entity.setPhoto(input.photo)
         entity.setProblemType(input.problemType)
+        entity.setCreatedAt(input.createdAt)
+        entity.setUpdatedAt(input.updatedAt)
 
         return entity
     }

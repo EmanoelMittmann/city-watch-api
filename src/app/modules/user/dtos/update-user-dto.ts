@@ -1,29 +1,29 @@
-import { ApiProperty } from "@nestjs/swagger"
-import { IsEnum, IsNotEmpty, IsNumber, IsString } from "class-validator"
+import { ApiProperty } from "@nestjs/swagger";
+import { IsOptional, IsString, IsUUID } from "class-validator";
 
-export class UpdateUserDto{
-    @ApiProperty()
+export class UpdateUserDto {
+    @ApiProperty({ required: false })
     @IsString()
-    @IsNotEmpty()
-    name: string
+    @IsOptional()
+    name?: string;
 
-    @ApiProperty()
+    @ApiProperty({ required: false })
     @IsString()
-    @IsNotEmpty()
-    email: string
+    @IsOptional()
+    email?: string;
 
-    @ApiProperty()
+    @ApiProperty({ required: false })
     @IsString()
-    @IsNotEmpty()
-    password: string
+    @IsOptional()
+    password?: string;
 
-    
-
-
+    @ApiProperty({ required: false })
+    @IsString()
+    @IsOptional()
+    photo?: string;
 }
 
-
-export class UpdateUserUseCaseInputDto extends UpdateUserDto{
-    @IsNumber()
-    id: number
+export class UpdateUserUseCaseInputDto extends UpdateUserDto {
+    @IsUUID()
+    uuid: string;
 }

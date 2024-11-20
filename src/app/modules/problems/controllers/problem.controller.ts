@@ -1,12 +1,16 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Put, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiParam, ApiTags } from "@nestjs/swagger";
 import { UpdateProblemDto } from "../dto/update-problem-dto";
 import { SaveProblemUseCase } from "../usecases/save-problems.usecase";
 import { UpdateProblemUseCase } from "../usecases/update-problems.usecase";
 import { GetProblemUseCase } from "../usecases/get-problems.usecase";
-import {  DeleteProblemUseCase } from "../usecases/delete-problems.usecase";
+import { DeleteProblemUseCase } from "../usecases/delete-problems.usecase";
 import { SaveProblemDto } from "../dto/save-problem.dto";
 import { AuthGuard } from "@modules/auth/guards/auth.guard";
+import { ProblemEntity } from "../entities/problem.entity";
+import { GetProblemByUuidUseCase } from "../usecases/get-problem-by-uuid.usecase";  
+import { CustomHeaderListing } from "@shared/contracts";
+import { GetProblemDto } from "../dto/get-problem.dto";
 
 @ApiBearerAuth()
 @ApiTags('Problem')
@@ -16,54 +20,67 @@ export class ProblemController {
         private readonly saveProblemUsecase: SaveProblemUseCase,
         private readonly updateProblemUseCase: UpdateProblemUseCase,
         private readonly getProblemUseCase: GetProblemUseCase,
-        private readonly deleteProblemUseCase: DeleteProblemUseCase
+        private readonly deleteProblemUseCase: DeleteProblemUseCase,
+        private readonly getProblemByUuidUseCase: GetProblemByUuidUseCase,  
     ) {}
 
     @Get()
     @HttpCode(HttpStatus.OK)
     @UseGuards(AuthGuard)
-    async fetchLocalization(){
+    async fetchProblem(): Promise<CustomHeaderListing<GetProblemDto>> {
         return this.getProblemUseCase.execute()
     }
-
+    
     @Post()
     @UseGuards(AuthGuard)
     @HttpCode(HttpStatus.OK)
-    async location(@Body() body: SaveProblemDto): Promise<void> {
+    async problem(@Body() body: SaveProblemDto): Promise<void> {
         return this.saveProblemUsecase.execute(body);
     }
 
-    @Delete(':id')
+    @Delete(':uuid')
     @UseGuards(AuthGuard)
     @ApiParam({
-        name: "id",
+        name: "uuid",
         required: true,
-        type: Number
+        type: String
     })
-    async deleteLocalization(
-        @Param('id', ParseIntPipe) id: number,     
+    async deleteProblem(
+        @Param('uuid') uuid: string,
     ): Promise<void> {
         return this.deleteProblemUseCase.execute({
-            id
-        })
+            uuid
+        });
     }
 
-    @Put(':id')
+    @Put(':uuid')
     @UseGuards(AuthGuard)
     @ApiParam({
-        name: 'id',
+        name: 'uuid',
         required: true,
-        type: Number
+        type: String
     })
     @HttpCode(HttpStatus.OK)
-    async updateLocation(
+    async updateProblem(
         @Body() body: UpdateProblemDto,
-        @Param('id', ParseIntPipe) param: number,
+        @Param('uuid') uuid: string,
     ): Promise<void> {
-
         return this.updateProblemUseCase.execute({
             ...body,
-            id: param,
-        })
+            uuid,
+        });
+    }
+
+    @Get(':uuid')
+    @UseGuards(AuthGuard)
+    @ApiParam({
+        name: "uuid",
+        required: true,
+        type: String
+    })
+    async getProblemByUuid(
+        @Param('uuid') uuid: string,
+    ): Promise<ProblemEntity> {
+        return this.getProblemByUuidUseCase.execute({ uuid });  
     }
 }

@@ -1,6 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger"
-import { PROBLEM_TYPE } from "@prisma/client"
-import { IsEnum, IsNotEmpty, IsNumber, IsString } from "class-validator"
+import { IsNotEmpty, IsNumber, IsString } from "class-validator"
 
 export class UpdateProblemDto{
     @ApiProperty()
@@ -29,13 +28,15 @@ export class UpdateProblemDto{
     @IsString()
     photo: string
 
-    @ApiProperty()
-    @IsEnum(PROBLEM_TYPE)
-    problemType: PROBLEM_TYPE
+    @ApiProperty({ enum: [1, 2, 3, 4, 5] })
+    @IsNumber()
+    problemType: number;
 }
 
 
-export class UpdateProblemUseCaseInputDto extends UpdateProblemDto{
-    @IsNumber()
-    id: number
+export class UpdateProblemUseCaseInputDto extends UpdateProblemDto {
+    @ApiProperty()
+    @IsString()
+    @IsNotEmpty()
+    uuid: string;
 }

@@ -19,7 +19,8 @@ export class RegisterUserUseCase implements IUseCaseBaseContract {
         await this.userRepository.createUser(UserSerializer.registerUserTransform({
             password: hashedPass,
             email: input.email,
-            name: input.name
+            name: input.name,
+            photo: input.photo
         }))
 
         return {

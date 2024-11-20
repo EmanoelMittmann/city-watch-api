@@ -24,6 +24,7 @@ model Users {
   name          String
   email         String
   password      String
+  photo         String?         @db.VarChar(255)
   role          RoleEnum        @default(USER)
   createdAt     DateTime        @default(now()) @map("created_at")
   isActive      Boolean         @default(true) @map("is_active")
@@ -54,28 +55,32 @@ model Warning {
   description    String        @db.VarChar(255)
   localization   Localizations @relation(fields: [localizationId], references: [id])
   localizationId Int           @unique @map("localization_id")
-  user        Users   @relation(fields: [userId], references: [id])
-  userId      Int     @map("user_id") @unique
+  user           Users         @relation(fields: [userId], references: [id])
+  userId         Int           @unique @map("user_id")
 
-  @@map("warnings") 
+  @@map("warnings")
 }
- 
+
 enum PROBLEM_TYPE {
   LACK_OF_ENERGY
   SANITATION
-  HEALTH
+  INFRASTRUCTURE
   RISK_AREA
+  OTHERS
 }
 
 model Problems {
-  id          Int     @id @default(autoincrement())
-  name        String  @db.VarChar(50)
-  address     String  @db.VarChar(255)
-  description String  @db.VarChar(255)
-  longitude   Decimal @db.Decimal()
-  latitude    Decimal @db.Decimal()
-  photo       String  @db.VarChar(255)
+  id          Int          @id @default(autoincrement())
+  uuid        String       @unique() @default(uuid()) @db.Uuid()
+  name        String       @db.VarChar(50)
+  address     String       @db.VarChar(255)
+  description String       @db.VarChar(255)
+  longitude   Decimal      @db.Decimal()
+  latitude    Decimal      @db.Decimal()
+  photo       String?       @db.VarChar(255)
   problemType PROBLEM_TYPE @map("problem_type")
-  
+  createdAt   DateTime     @default(now()) @map("created_at")
+  updatedAt   DateTime     @updatedAt() @map("updated_at")
+
   @@map("problems")
 }

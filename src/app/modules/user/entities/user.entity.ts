@@ -6,6 +6,7 @@ export class UserEntity {
     private _name: string;
     private _email: string;
     private _password: string;
+    private _photo: string;
     private _isActive: boolean;
     _location: {
         x: string;
@@ -33,6 +34,10 @@ export class UserEntity {
 
     public getPassword(): string {
         return this._password;
+    }
+
+    public getPhoto(): string {
+        return this._photo;
     }
 
     public getLocation(): { x: string; y: string } {
@@ -73,6 +78,10 @@ export class UserEntity {
 
     public setPassword(input: string) {
         this._password = input;
+    }
+
+    public setPhoto(input: string) {
+        this._photo = input;
     }
 
     public setIsActive(input: boolean) {

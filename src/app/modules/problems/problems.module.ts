@@ -5,6 +5,7 @@ import { GetProblemUseCase } from "./usecases/get-problems.usecase";
 import { SaveProblemUseCase } from "./usecases/save-problems.usecase";
 import { UpdateProblemUseCase } from "./usecases/update-problems.usecase";
 import { ProblemPostgresRepository } from "@databases/orms/prisma/postgres/problems.repository";
+import { GetProblemByUuidUseCase } from "./usecases/get-problem-by-uuid.usecase";
 
 @Module({
     controllers: [ProblemController],
@@ -16,8 +17,9 @@ import { ProblemPostgresRepository } from "@databases/orms/prisma/postgres/probl
         SaveProblemUseCase,
         UpdateProblemUseCase,
         GetProblemUseCase,
-        DeleteProblemUseCase
+        DeleteProblemUseCase,
+        GetProblemByUuidUseCase,
     ],
-    exports:["IProblemRepository"]
+    exports:['IProblemRepository']
 })
 export class ProblemsModule {}
