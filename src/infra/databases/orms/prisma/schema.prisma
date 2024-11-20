@@ -81,6 +81,19 @@ model Problems {
   problemType PROBLEM_TYPE @map("problem_type")
   createdAt   DateTime     @default(now()) @map("created_at")
   updatedAt   DateTime     @updatedAt() @map("updated_at")
+  Rating      Rating[]
 
   @@map("problems")
+}
+
+enum DEFAULT_NAME_RATING {
+  LIKE
+  DISLIKE
+}
+
+model Rating {
+  id  Int @id @default(autoincrement())
+  name DEFAULT_NAME_RATING @map("name_rating")
+  problem Problems @relation(fields: [problemId], references: [id])
+  problemId Int @map("problem_id")
 }
