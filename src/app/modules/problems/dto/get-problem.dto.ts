@@ -42,3 +42,9 @@ export class GetProblemDto {
     @IsString()
     updatedAt: Date;
 }
+
+
+export class GetProblemByUuidDto extends GetProblemDto {
+    like: number
+    dislike: number
+}

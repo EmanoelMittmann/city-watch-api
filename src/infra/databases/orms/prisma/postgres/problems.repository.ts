@@ -3,6 +3,7 @@ import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma.service";
 import { ProblemEntity } from "@modules/problems/entities/problem.entity";
 import { IFetchProblem, ProblemSerializer } from "../serializer/problem.serializer";
+import { DEFAULT_NAME_RATING } from "@shared/enums/default-name-rating.enum";
 
 @Injectable()
 export class ProblemPostgresRepository implements IProblemRepository {
@@ -110,7 +111,7 @@ export class ProblemPostgresRepository implements IProblemRepository {
                 longitude: true,
                 photo: true,
                 problemType: true,
-                uuid: true,  // Buscando pelo uuid
+                uuid: true,
             }
         });
 
@@ -149,5 +150,16 @@ export class ProblemPostgresRepository implements IProblemRepository {
         };
 
         return ProblemSerializer.transformToEntity(transformedProblem as IFetchProblem);
+    }
+
+    countByProblemUuid(uuid: string, type: DEFAULT_NAME_RATING): Promise<number> {
+        return this.prisma.rating.count({
+            where: {
+                problem: {
+                    uuid: uuid
+                },
+                name: type
+            }
+        })
     }
 }
