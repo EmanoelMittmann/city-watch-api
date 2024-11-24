@@ -92,7 +92,7 @@ export class ProblemController {
         })
         const dislike = await this.countRatingByProblemUuidUseCase.execute({
             problemUuid: uuid,
-            type: DEFAULT_NAME_RATING.LIKE,
+            type: DEFAULT_NAME_RATING.DISLIKE,
         })
 
 
