@@ -1,3 +1,4 @@
+import { UserEntity } from "@modules/user/entities/user.entity"
 import { PROBLEM_TYPE } from "@prisma/client"
 
 
@@ -11,8 +12,17 @@ export class ProblemEntity{
     private address: string
     private photo: string 
     private problemType: PROBLEM_TYPE
+    private user: UserEntity
     private createdAt: Date;
     private updatedAt: Date;
+
+    public getUser(): UserEntity {
+        return this.user;
+    }
+
+    public setUser(user: UserEntity): void {
+        this.user = user;
+    }
 
     public getCreatedAt(): Date {
         return this.createdAt;

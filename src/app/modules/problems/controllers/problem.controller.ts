@@ -1,19 +1,33 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, UseGuards } from "@nestjs/common";
-import { ApiBearerAuth, ApiParam, ApiTags } from "@nestjs/swagger";
-import { UpdateProblemDto } from "../dto/update-problem-dto";
-import { SaveProblemUseCase } from "../usecases/save-problems.usecase";
-import { UpdateProblemUseCase } from "../usecases/update-problems.usecase";
-import { GetProblemUseCase } from "../usecases/get-problems.usecase";
-import { DeleteProblemUseCase } from "../usecases/delete-problems.usecase";
-import { SaveProblemDto } from "../dto/save-problem.dto";
-import { AuthGuard } from "@modules/auth/guards/auth.guard";
-import { ProblemEntity } from "../entities/problem.entity";
-import { GetProblemByUuidUseCase } from "../usecases/get-problem-by-uuid.usecase";  
-import { CustomHeaderListing } from "@shared/contracts";
-import { GetProblemByUuidDto, GetProblemDto } from "../dto/get-problem.dto";
-import { ProblemSerializer } from "../serializers/problems.serializers";
-import { CountRatingByProblemUuidUseCase } from "../usecases/count-rating-by-problem-uuid.usecase";
-import { DEFAULT_NAME_RATING } from "@shared/enums/default-name-rating.enum";
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    HttpCode,
+    HttpStatus,
+    Param,
+    Post,
+    Put,
+    UseGuards,
+} from '@nestjs/common';
+import { ApiBearerAuth, ApiParam, ApiTags } from '@nestjs/swagger';
+import { UpdateProblemDto } from '../dto/update-problem-dto';
+import { SaveProblemUseCase } from '../usecases/save-problems.usecase';
+import { UpdateProblemUseCase } from '../usecases/update-problems.usecase';
+import { GetProblemUseCase } from '../usecases/get-problems.usecase';
+import { DeleteProblemUseCase } from '../usecases/delete-problems.usecase';
+import { SaveProblemDto } from '../dto/save-problem.dto';
+import { AuthGuard } from '@modules/auth/guards/auth.guard';
+import { ProblemEntity } from '../entities/problem.entity';
+import { GetProblemByUuidUseCase } from '../usecases/get-problem-by-uuid.usecase';
+import { CustomHeaderListing } from '@shared/contracts';
+import { GetProblemByUuidDto, GetProblemDto } from '../dto/get-problem.dto';
+import { ProblemSerializer } from '../serializers/problems.serializers';
+import { CountRatingByProblemUuidUseCase } from '../usecases/count-rating-by-problem-uuid.usecase';
+import { DEFAULT_NAME_RATING } from '@shared/enums/default-name-rating.enum';
+import { ListProblemsByUserIdUseCase } from '../usecases/list-problems-by-user-id.usecase';
+import { GetUserAuth } from '@shared/decorators/get-user-auth.decorator';
+import { UserEntity } from '@modules/user/entities/user.entity';
 
 @ApiBearerAuth()
 @ApiTags('Problem')
@@ -22,38 +36,43 @@ export class ProblemController {
     constructor(
         private readonly saveProblemUsecase: SaveProblemUseCase,
         private readonly updateProblemUseCase: UpdateProblemUseCase,
-        private readonly countRatingByProblemUuidUseCase:CountRatingByProblemUuidUseCase,
+        private readonly countRatingByProblemUuidUseCase: CountRatingByProblemUuidUseCase,
         private readonly getProblemUseCase: GetProblemUseCase,
+        private readonly listProblemsByUserIdUseCase: ListProblemsByUserIdUseCase,
         private readonly deleteProblemUseCase: DeleteProblemUseCase,
-        private readonly getProblemByUuidUseCase: GetProblemByUuidUseCase,  
+        private readonly getProblemByUuidUseCase: GetProblemByUuidUseCase,
     ) {}
 
     @Get()
     @HttpCode(HttpStatus.OK)
     @UseGuards(AuthGuard)
     async fetchProblem(): Promise<CustomHeaderListing<GetProblemDto>> {
-        return this.getProblemUseCase.execute()
+        return this.getProblemUseCase.execute();
     }
-    
+
     @Post()
     @UseGuards(AuthGuard)
     @HttpCode(HttpStatus.OK)
-    async problem(@Body() body: SaveProblemDto): Promise<void> {
-        return this.saveProblemUsecase.execute(body);
+    async problem(
+        @Body() body: SaveProblemDto,
+        @GetUserAuth() user: UserEntity,
+    ): Promise<void> {
+        return this.saveProblemUsecase.execute({
+            ...body,
+            userId: user.getId(),
+        });
     }
 
     @Delete(':uuid')
     @UseGuards(AuthGuard)
     @ApiParam({
-        name: "uuid",
+        name: 'uuid',
         required: true,
-        type: String
+        type: String,
     })
-    async deleteProblem(
-        @Param('uuid') uuid: string,
-    ): Promise<void> {
+    async deleteProblem(@Param('uuid') uuid: string): Promise<void> {
         return this.deleteProblemUseCase.execute({
-            uuid
+            uuid,
         });
     }
 
@@ -62,7 +81,7 @@ export class ProblemController {
     @ApiParam({
         name: 'uuid',
         required: true,
-        type: String
+        type: String,
     })
     @HttpCode(HttpStatus.OK)
     async updateProblem(
@@ -75,30 +94,35 @@ export class ProblemController {
         });
     }
 
-    @Get(':uuid')
+    @Get(':uuid/detail')
     @UseGuards(AuthGuard)
     @ApiParam({
-        name: "uuid",
+        name: 'uuid',
         required: true,
-        type: String
+        type: String,
     })
     async getProblemByUuid(
         @Param('uuid') uuid: string,
     ): Promise<GetProblemByUuidDto> {
-        const entity = await this.getProblemByUuidUseCase.execute({ uuid });  
+        const entity = await this.getProblemByUuidUseCase.execute({ uuid });
         const like = await this.countRatingByProblemUuidUseCase.execute({
             problemUuid: uuid,
             type: DEFAULT_NAME_RATING.LIKE,
-        })
+        });
         const dislike = await this.countRatingByProblemUuidUseCase.execute({
             problemUuid: uuid,
             type: DEFAULT_NAME_RATING.DISLIKE,
-        })
-
+        });
 
         return ProblemSerializer.transformToGetProblemByUuid(entity, {
             dislike,
             like,
         });
+    }
+
+    @Get('me')
+    @UseGuards(AuthGuard)
+    async getProblemByUserId(@GetUserAuth() user: UserEntity) {
+        return this.listProblemsByUserIdUseCase.execute(user.getId());
     }
 }

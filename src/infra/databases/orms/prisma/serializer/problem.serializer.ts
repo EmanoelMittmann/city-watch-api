@@ -1,5 +1,5 @@
-import { ProblemEntity } from "@modules/problems/entities/problem.entity";
-import { PROBLEM_TYPE } from "@prisma/client";
+import { ProblemEntity } from '@modules/problems/entities/problem.entity';
+import { PROBLEM_TYPE } from '@prisma/client';
 
 export interface IFetchProblem {
     id: number;
@@ -15,26 +15,48 @@ export interface IFetchProblem {
     updatedAt: Date;
 }
 
+export interface IFindByUserId {
+    uuid: string;
+    name: string;
+    createdAt: Date;
+    problemType: PROBLEM_TYPE;
+}
+
 export class ProblemSerializer {
-    static transformToEntity(input: IFetchProblem){
-        const entity = new ProblemEntity()
+    static transformToEntity(input: IFetchProblem) {
+        const entity = new ProblemEntity();
 
-        entity.setId(input.id)
-        entity.setUuid(input.uuid)
-        entity.setName(input.name)
-        entity.setAddress(input.address)
-        entity.setDescription(input.description)
-        entity.setLatitude(input.latitude)
-        entity.setLongitude(input.longitude)
-        entity.setPhoto(input.photo)
-        entity.setProblemType(input.problemType)
-        entity.setCreatedAt(input.createdAt)
-        entity.setUpdatedAt(input.updatedAt)
+        entity.setId(input.id);
+        entity.setUuid(input.uuid);
+        entity.setName(input.name);
+        entity.setAddress(input.address);
+        entity.setDescription(input.description);
+        entity.setLatitude(input.latitude);
+        entity.setLongitude(input.longitude);
+        entity.setPhoto(input.photo);
+        entity.setProblemType(input.problemType);
+        entity.setCreatedAt(input.createdAt);
+        entity.setUpdatedAt(input.updatedAt);
 
-        return entity
+        return entity;
     }
 
-    static transformManyToEntity(input: IFetchProblem[]){
-        return input.map(this.transformToEntity)
+    static transformManyToEntity(input: IFetchProblem[]) {
+        return input.map(this.transformToEntity);
+    }
+
+    static transformFindByUserId(input: IFindByUserId) {
+        const entity = new ProblemEntity();
+
+        entity.setUuid(input.uuid);
+        entity.setName(input.name);
+        entity.setCreatedAt(input.createdAt);
+        entity.setProblemType(input.problemType);
+
+        return entity;
+    }
+
+    static transformManyFindByUserId(input: IFindByUserId[]) {
+        return input.map(this.transformFindByUserId);
     }
 }
