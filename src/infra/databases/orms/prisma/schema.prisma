@@ -31,6 +31,7 @@ model Users {
   updatedAt     DateTime        @updatedAt() @map("updated_at")
   Localizations Localizations[]
   Warning       Warning[]
+  Rating        Rating[]
 
   @@map("users")
 }
@@ -77,10 +78,27 @@ model Problems {
   description String       @db.VarChar(255)
   longitude   Decimal      @db.Decimal()
   latitude    Decimal      @db.Decimal()
-  photo       String?       @db.VarChar(255)
+  photo       String?      @db.VarChar(255)
   problemType PROBLEM_TYPE @map("problem_type")
   createdAt   DateTime     @default(now()) @map("created_at")
   updatedAt   DateTime     @updatedAt() @map("updated_at")
+  Rating      Rating[]
 
   @@map("problems")
+}
+
+enum DEFAULT_NAME_RATING {
+  LIKE
+  DISLIKE
+}
+
+model Rating {
+  id        Int                 @id @default(autoincrement())
+  name      DEFAULT_NAME_RATING @map("name_rating")
+  problem   Problems            @relation(fields: [problemId], references: [id])
+  problemId Int                 @map("problem_id")
+  user      Users               @relation(fields: [userId], references: [id])
+  userId    Int                 @map("user_id")
+
+  @@map("ratings")
 }

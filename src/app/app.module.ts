@@ -12,6 +12,7 @@ import { LocalizationsModule } from '@modules/locations/localizations.module';
 import { WarningModule } from '@modules/warnings/warning.module';
 import { AuthValidatorMiddleware } from '@modules/auth/middleware/auth-validator.middleware';
 import { ProblemsModule } from '@modules/problems/problems.module';
+import { RatingModule } from '@modules/ratings/rating.module';
 
 @Module({
     imports: [
@@ -36,6 +37,7 @@ import { ProblemsModule } from '@modules/problems/problems.module';
         SecurityModule,
         LocalizationsModule,
         ProblemsModule,
+        RatingModule,
     ],
     controllers: [AppController],
     providers: [JwtStrategy],
