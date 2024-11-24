@@ -11,7 +11,7 @@ export class AuthValidatorMiddleware implements NestMiddleware {
     ){}
 
     async use(req: Request, res: Response, next: NextFunction) {
-        const POSITION_BEARER_TOKEN = 1
+        const POSITION_BEARER_TOKEN = 1 
         const getToken = req.headers.authorization.split(' ')[POSITION_BEARER_TOKEN]
 
         const isValidToken = await this.jwtService.verifyAsync(getToken)
