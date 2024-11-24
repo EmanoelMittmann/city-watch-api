@@ -1,11 +1,10 @@
-import { PROBLEM_TYPE } from "@prisma/client";
-import { SaveProblemDto } from "../dto/save-problem.dto";
-import { UpdateProblemUseCaseInputDto } from "../dto/update-problem-dto";
-import { ProblemEntity } from "../entities/problem.entity";
-import { GetProblemDto } from "../dto/get-problem.dto";
+import { PROBLEM_TYPE } from '@prisma/client';
+import { SaveProblemDto } from '../dto/save-problem.dto';
+import { UpdateProblemUseCaseInputDto } from '../dto/update-problem-dto';
+import { ProblemEntity } from '../entities/problem.entity';
+import { GetProblemByUuidDto, GetProblemDto } from '../dto/get-problem.dto';
 
 export class ProblemSerializer {
-
     static mapNumberToProblemType(num: number): PROBLEM_TYPE {
         const values = Object.values(PROBLEM_TYPE);
         return values[num - 1];
@@ -30,10 +29,12 @@ export class ProblemSerializer {
         return entity;
     }
 
-    static transformToUpdateProblem(input: UpdateProblemUseCaseInputDto): ProblemEntity {
+    static transformToUpdateProblem(
+        input: UpdateProblemUseCaseInputDto,
+    ): ProblemEntity {
         const entity = new ProblemEntity();
 
-        entity.setUuid(input.uuid);  
+        entity.setUuid(input.uuid);
         entity.setName(input.name);
         entity.setAddress(input.address);
         entity.setDescription(input.description);
@@ -41,26 +42,50 @@ export class ProblemSerializer {
         entity.setLongitude(input.longitude);
         entity.setPhoto(input.photo);
         entity.setProblemType(this.mapNumberToProblemType(input.problemType));
-        
+
         return entity;
     }
 
-    static transformToGetProblem(input: ProblemEntity) : GetProblemDto {
+    static transformToGetProblem(input: ProblemEntity): GetProblemDto {
         return {
-            uuid: input.getUuid(), 
+            uuid: input.getUuid(),
             name: input.getName(),
             address: input.getAddress(),
             description: input.getDescription(),
             latitude: input.getLatitude(),
             longitude: input.getLongitude(),
             photo: input.getPhoto(),
-            problemType: ProblemSerializer.mapProblemTypeToNumber(input.getProblemType()), 
+            problemType: ProblemSerializer.mapProblemTypeToNumber(
+                input.getProblemType(),
+            ),
             createdAt: input.getCreatedAt(),
-            updatedAt: input.getUpdatedAt()
+            updatedAt: input.getUpdatedAt(),
         };
-    }    
+    }
 
-    static transformToManyGetProblem(input: ProblemEntity[]){
-        return input.map(this.transformToGetProblem)
+    static transformToManyGetProblem(input: ProblemEntity[]) {
+        return input.map(this.transformToGetProblem);
+    }
+
+    static transformToGetProblemByUuid(
+        input: ProblemEntity,
+        counts: { like: number; dislike: number },
+    ): GetProblemByUuidDto {
+        return {
+            uuid: input.getUuid(),
+            name: input.getName(),
+            address: input.getAddress(),
+            description: input.getDescription(),
+            latitude: input.getLatitude(),
+            longitude: input.getLongitude(),
+            photo: input.getPhoto(),
+            problemType: ProblemSerializer.mapProblemTypeToNumber(
+                input.getProblemType(),
+            ),
+            createdAt: input.getCreatedAt(),
+            updatedAt: input.getUpdatedAt(),
+            dislike: counts.dislike,
+            like: counts.like,
+        };
     }
 }
