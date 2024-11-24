@@ -7,6 +7,7 @@ import { UpdateProblemUseCase } from "./usecases/update-problems.usecase";
 import { ProblemPostgresRepository } from "@databases/orms/prisma/postgres/problems.repository";
 import { GetProblemByUuidUseCase } from "./usecases/get-problem-by-uuid.usecase";
 import { CountRatingByProblemUuidUseCase } from "./usecases/count-rating-by-problem-uuid.usecase";
+import { ListProblemsByUserIdUseCase } from "./usecases/list-problems-by-user-id.usecase";
 
 @Module({
     controllers: [ProblemController],
@@ -20,7 +21,8 @@ import { CountRatingByProblemUuidUseCase } from "./usecases/count-rating-by-prob
         GetProblemUseCase,
         DeleteProblemUseCase,
         GetProblemByUuidUseCase,
-        CountRatingByProblemUuidUseCase
+        CountRatingByProblemUuidUseCase,
+        ListProblemsByUserIdUseCase
     ],
     exports:['IProblemRepository',GetProblemByUuidUseCase]
 })

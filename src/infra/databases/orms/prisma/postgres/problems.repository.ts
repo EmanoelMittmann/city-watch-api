@@ -42,6 +42,7 @@ export class ProblemPostgresRepository implements IProblemRepository {
                 longitude: data.getLongitude(),
                 photo: data.getPhoto(),
                 problemType: data.getProblemType(),
+                userId: data.getUser().getId(),
             }
         });
     }
@@ -161,5 +162,23 @@ export class ProblemPostgresRepository implements IProblemRepository {
                 name: type
             }
         })
+    }
+
+    async findByUserid(userId: number): Promise<ProblemEntity[]> {
+        const data = await this.prisma.problems.findMany({
+            where: {
+                userId
+            },
+            select: {
+                uuid:true,
+                name: true,
+                createdAt: true,
+                problemType: true,
+            }
+        })
+
+        if(!data) return null
+
+        return ProblemSerializer.transformManyFindByUserId(data)
     }
 }
