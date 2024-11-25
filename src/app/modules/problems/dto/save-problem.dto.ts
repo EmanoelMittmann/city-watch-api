@@ -1,36 +1,46 @@
-import { ApiProperty } from "@nestjs/swagger"
-import { PROBLEM_TYPE } from "@prisma/client"
-import { IsBoolean, IsDecimal, IsEnum, IsNotEmpty, IsNumber, IsString } from "class-validator"
+import { ApiProperty } from '@nestjs/swagger';
+import { PROBLEM_TYPE } from '@prisma/client';
+import {
+    IsBoolean,
+    IsDecimal,
+    IsEnum,
+    IsNotEmpty,
+    IsNumber,
+    IsString,
+} from 'class-validator';
 
 export class SaveProblemDto {
-    
     @ApiProperty()
     @IsString()
     @IsNotEmpty()
-    name: string
+    name: string;
 
     @ApiProperty()
     @IsString()
-    address: string
+    address: string;
 
     @ApiProperty()
     @IsString()
     @IsNotEmpty()
-    description: string
+    description: string;
 
     @ApiProperty()
     @IsNumber()
-    latitude: number
+    latitude: number;
 
     @ApiProperty()
     @IsNumber()
-    longitude: number
+    longitude: number;
 
     @ApiProperty()
     @IsString()
-    photo: string
+    photo: string;
 
     @ApiProperty({ enum: [1, 2, 3, 4, 5] })
     @IsNumber()
     problemType: number;
+}
+
+export class SaveProblemUseCaseInput extends SaveProblemDto {
+    userId: number;
 }

@@ -1,3 +1,4 @@
+import { GetUserDto } from "../dtos/get-user-dto";
 import { UpdateUserUseCaseInputDto } from "../dtos/update-user-dto";
 import { UserEntity } from "../entities/user.entity";
 
@@ -41,5 +42,17 @@ export class UserSerializer {
     
         return entity;
     }
+
+    static transformToGetUser(input: UserEntity) : GetUserDto {
+        return {
+            uuid: input.getUuid(), 
+            name: input.getName(),
+            email: input.getEmail(),
+            photo: input.getPhoto(),
+        };
+    }    
     
+    static transformToManyGetUser(input: UserEntity[]){
+        return input.map(this.transformToGetUser)
+    }
 }

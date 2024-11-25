@@ -2,6 +2,8 @@ import { Module } from "@nestjs/common";
 import { UserController } from "./controllers/user.controller";
 import { UpdateUserUseCase } from "./usecases/update-users.usecase";
 import { UserPostgresRepository } from "@databases/orms/prisma/postgres/user.repository";
+import { GetUserUseCase } from "./usecases/get-users.usecase";
+import { GetUserByUuidUseCase } from "./usecases/get-user-by-uuid.usecase";
 
 
 @Module({
@@ -11,7 +13,9 @@ import { UserPostgresRepository } from "@databases/orms/prisma/postgres/user.rep
             provide: 'IUserRepository',
             useClass: UserPostgresRepository
         },
-        UpdateUserUseCase
+        UpdateUserUseCase,
+        GetUserUseCase,
+        GetUserByUuidUseCase
     ],
     exports: ['IUserRepository']
 })

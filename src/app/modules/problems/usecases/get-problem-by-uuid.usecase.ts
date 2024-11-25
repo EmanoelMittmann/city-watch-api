@@ -13,7 +13,7 @@ export class GetProblemByUuidUseCase {
     ) {}
 
     async execute(input: GetProblemByUuidDto) {
-        const problem = await await this.problemRepository.findByUuid(
+        const problem = await this.problemRepository.findByUuid(
             input.uuid,
         );
         if (!problem) {

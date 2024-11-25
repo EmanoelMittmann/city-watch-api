@@ -2,7 +2,7 @@ import { IUserRepository } from "@modules/user/repositories/user.repository"
 import { Injectable } from "@nestjs/common"
 import { PrismaService } from "../prisma.service"
 import { UserEntity } from "@modules/user/entities/user.entity"
-import { IFindByEmail, IFindById, UserSerializer } from "../serializer/user-serializer"
+import { IFetchUser, IFindByEmail, IFindById, UserSerializer } from "../serializer/user-serializer"
 
 
 @Injectable()
@@ -21,16 +21,25 @@ export class UserPostgresRepository implements IUserRepository {
         return UserSerializer.FindById(byId)
     }
 
-    async findByUuid(uuid: string): Promise<UserEntity> {
-        const byUuid = await this.prisma.users.findUnique({
-            where: {
-                uuid
+    async findByUuid(uuid: string): Promise<UserEntity | null> {
+        const user = await this.prisma.users.findUnique({
+            where: { uuid },
+            select: {
+                id: true,
+                uuid: true,
+                name: true,
+                email: true,
+                photo: true,
+                  
             }
-        }) as unknown as IFindById
+        });
 
-        if(!byUuid) return null
+        if (!user) {
+            return null;
+        }
 
-        return UserSerializer.FindById(byUuid)
+
+        return UserSerializer.transformToEntity(user);
     }
 
     async createUser(user: UserEntity): Promise<void> {
@@ -80,5 +89,20 @@ export class UserPostgresRepository implements IUserRepository {
                 photo: data.getPhoto()
             }
         })
+    }
+
+    async fetchUser(): Promise<UserEntity[]> {
+        const data = await this.prisma.users.findMany({
+            select: {
+                id: true,
+                uuid: true,
+                name: true,
+                photo: true,
+                email: true,
+                
+            }
+        }) as unknown as IFetchUser[];
+
+        return UserSerializer.transformManyToEntity(data);
     }
 }
