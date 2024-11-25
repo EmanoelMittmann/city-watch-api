@@ -25,6 +25,14 @@ export interface IFindById {
     updatedAt: Date;
 }
 
+export interface IFetchUser {
+    id: number;
+    uuid: string;
+    name: string;
+    email: string;
+    photo: string;   
+}
+
 export class UserSerializer {
     static FindByEmail(input: IFindByEmail): UserEntity {
         const entity = new UserEntity();
@@ -47,5 +55,22 @@ export class UserSerializer {
         entity.setRole(input.role), entity.setPassword(input.password);
 
         return entity;
+    }
+
+    static transformToEntity(input: IFetchUser){
+        const entity = new UserEntity()
+
+        entity.setUuid(input.uuid)
+        entity.setName(input.name)
+        entity.setEmail(input.email)
+        entity.setPhoto(input.photo)
+        
+        
+
+        return entity
+    }
+
+    static transformManyToEntity(input: IFetchUser[]){
+        return input.map(this.transformToEntity)
     }
 }

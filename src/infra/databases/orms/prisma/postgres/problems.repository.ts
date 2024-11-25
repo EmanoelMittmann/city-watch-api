@@ -110,7 +110,7 @@ export class ProblemPostgresRepository implements IProblemRepository {
                 longitude: true,
                 photo: true,
                 problemType: true,
-                uuid: true,  // Buscando pelo uuid
+                uuid: true,  
             }
         });
 
