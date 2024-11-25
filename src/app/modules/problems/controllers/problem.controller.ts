@@ -10,7 +10,10 @@ import { AuthGuard } from "@modules/auth/guards/auth.guard";
 import { ProblemEntity } from "../entities/problem.entity";
 import { GetProblemByUuidUseCase } from "../usecases/get-problem-by-uuid.usecase";  
 import { CustomHeaderListing } from "@shared/contracts";
-import { GetProblemDto } from "../dto/get-problem.dto";
+import { GetProblemByUuidDto, GetProblemDto } from "../dto/get-problem.dto";
+import { ProblemSerializer } from "../serializers/problems.serializers";
+import { CountRatingByProblemUuidUseCase } from "../usecases/count-rating-by-problem-uuid.usecase";
+import { DEFAULT_NAME_RATING } from "@shared/enums/default-name-rating.enum";
 
 @ApiBearerAuth()
 @ApiTags('Problem')
@@ -19,6 +22,7 @@ export class ProblemController {
     constructor(
         private readonly saveProblemUsecase: SaveProblemUseCase,
         private readonly updateProblemUseCase: UpdateProblemUseCase,
+        private readonly countRatingByProblemUuidUseCase:CountRatingByProblemUuidUseCase,
         private readonly getProblemUseCase: GetProblemUseCase,
         private readonly deleteProblemUseCase: DeleteProblemUseCase,
         private readonly getProblemByUuidUseCase: GetProblemByUuidUseCase,  
@@ -80,7 +84,21 @@ export class ProblemController {
     })
     async getProblemByUuid(
         @Param('uuid') uuid: string,
-    ): Promise<ProblemEntity> {
-        return this.getProblemByUuidUseCase.execute({ uuid });  
+    ): Promise<GetProblemByUuidDto> {
+        const entity = await this.getProblemByUuidUseCase.execute({ uuid });  
+        const like = await this.countRatingByProblemUuidUseCase.execute({
+            problemUuid: uuid,
+            type: DEFAULT_NAME_RATING.LIKE,
+        })
+        const dislike = await this.countRatingByProblemUuidUseCase.execute({
+            problemUuid: uuid,
+            type: DEFAULT_NAME_RATING.DISLIKE,
+        })
+
+
+        return ProblemSerializer.transformToGetProblemByUuid(entity, {
+            dislike,
+            like,
+        });
     }
 }
