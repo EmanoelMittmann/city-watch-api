@@ -1,8 +1,9 @@
 import { PROBLEM_TYPE } from '@prisma/client';
-import { SaveProblemDto } from '../dto/save-problem.dto';
+import { SaveProblemDto, SaveProblemUseCaseInput } from '../dto/save-problem.dto';
 import { UpdateProblemUseCaseInputDto } from '../dto/update-problem-dto';
 import { ProblemEntity } from '../entities/problem.entity';
 import { GetProblemByUuidDto, GetProblemDto } from '../dto/get-problem.dto';
+import { UserEntity } from '@modules/user/entities/user.entity';
 
 export class ProblemSerializer {
     static mapNumberToProblemType(num: number): PROBLEM_TYPE {
@@ -15,8 +16,11 @@ export class ProblemSerializer {
         return values.indexOf(problemType) + 1;
     }
 
-    static transformToSaveProblem(input: SaveProblemDto): ProblemEntity {
+    static transformToSaveProblem(input: SaveProblemUseCaseInput): ProblemEntity {
         const entity = new ProblemEntity();
+
+        const user = new UserEntity();
+        user.setId(input.userId);
 
         entity.setName(input.name);
         entity.setAddress(input.address);
@@ -24,6 +28,7 @@ export class ProblemSerializer {
         entity.setLatitude(input.latitude);
         entity.setLongitude(input.longitude);
         entity.setPhoto(input.photo);
+        entity.setUser(user);
         entity.setProblemType(this.mapNumberToProblemType(input.problemType));
 
         return entity;
@@ -87,5 +92,20 @@ export class ProblemSerializer {
             dislike: counts.dislike,
             like: counts.like,
         };
+    }
+
+    static transformToGetProblemByUserId(input: ProblemEntity) {
+        return {
+            uuid: input.getUuid(),
+            name: input.getName(),
+            createdAt: input.getCreatedAt(),
+            problemType: ProblemSerializer.mapProblemTypeToNumber(
+                input.getProblemType(),
+            ),
+        };
+    }
+
+    static transformToManyGetProblemByUserId(input: ProblemEntity[]) {
+        return input.map(this.transformToGetProblemByUserId)
     }
 }

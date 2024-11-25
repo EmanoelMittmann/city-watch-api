@@ -32,6 +32,7 @@ model Users {
   Localizations Localizations[]
   Warning       Warning[]
   Rating        Rating[]
+  Problems      Problems[]
 
   @@map("users")
 }
@@ -82,6 +83,8 @@ model Problems {
   problemType PROBLEM_TYPE @map("problem_type")
   createdAt   DateTime     @default(now()) @map("created_at")
   updatedAt   DateTime     @updatedAt() @map("updated_at")
+  user        Users?       @relation(fields: [userId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  userId      Int?         @map("user_id")
   Rating      Rating[]
 
   @@map("problems")
