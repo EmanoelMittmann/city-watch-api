@@ -24,7 +24,7 @@ model Users {
   name          String
   email         String
   password      String
-  photo         String?         @db.VarChar(255)
+  photo         String?         @db.Text()
   role          RoleEnum        @default(USER)
   createdAt     DateTime        @default(now()) @map("created_at")
   isActive      Boolean         @default(true) @map("is_active")
@@ -79,7 +79,7 @@ model Problems {
   description String       @db.VarChar(255)
   longitude   Decimal      @db.Decimal()
   latitude    Decimal      @db.Decimal()
-  photo       String?      @db.VarChar(255)
+  photo       String?      @db.Text()
   problemType PROBLEM_TYPE @map("problem_type")
   createdAt   DateTime     @default(now()) @map("created_at")
   updatedAt   DateTime     @updatedAt() @map("updated_at")
