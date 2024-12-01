@@ -1,4 +1,5 @@
 import { ProblemEntity } from '@modules/problems/entities/problem.entity';
+import { UserEntity } from '@modules/user/entities/user.entity';
 import { PROBLEM_TYPE } from '@prisma/client';
 
 export interface IFetchProblem {
@@ -13,6 +14,14 @@ export interface IFetchProblem {
     problemType: PROBLEM_TYPE;
     createdAt: Date;
     updatedAt: Date;
+    
+}
+
+export interface IFetchProblemCustom extends IFetchProblem{
+    user: {
+        name: string,
+        photo: string
+    }
 }
 
 export interface IFindByUserId {
@@ -37,6 +46,27 @@ export class ProblemSerializer {
         entity.setProblemType(input.problemType);
         entity.setCreatedAt(input.createdAt);
         entity.setUpdatedAt(input.updatedAt);
+
+        return entity;
+    }
+    static transformToEntityByUuid(input: IFetchProblemCustom) {
+        const entity = new ProblemEntity();
+        const user = new UserEntity();
+
+        entity.setId(input.id);
+        entity.setUuid(input.uuid);
+        entity.setName(input.name);
+        entity.setAddress(input.address);
+        entity.setDescription(input.description);
+        entity.setLatitude(input.latitude);
+        entity.setLongitude(input.longitude);
+        entity.setPhoto(input.photo);
+        entity.setProblemType(input.problemType);
+        entity.setCreatedAt(input.createdAt);
+        entity.setUpdatedAt(input.updatedAt);
+        user.setName(input.user.name);
+        user.setPhoto(input.user.photo);
+        entity.setUser(user);
 
         return entity;
     }

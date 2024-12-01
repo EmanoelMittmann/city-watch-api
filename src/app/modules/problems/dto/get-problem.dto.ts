@@ -45,6 +45,10 @@ export class GetProblemDto {
 
 
 export class GetProblemByUuidDto extends GetProblemDto {
+    user:{
+        name: string,
+        photo: string
+    }
     like: number
     dislike: number
 }

@@ -89,6 +89,10 @@ export class ProblemSerializer {
             ),
             createdAt: input.getCreatedAt(),
             updatedAt: input.getUpdatedAt(),
+            user: {
+                name: input.getUser().getName(),
+                photo: input.getUser().getPhoto(),
+            },
             dislike: counts.dislike,
             like: counts.like,
         };
