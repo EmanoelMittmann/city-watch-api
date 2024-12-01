@@ -9,6 +9,7 @@ import {
 } from './usecases';
 import { RatingController } from './controllers/rating.controller';
 import { ProblemsModule } from '@modules/problems/problems.module';
+import { GetProblemByUuidUseCase } from '@modules/problems/usecases/get-problem-by-uuid.usecase';
 
 @Module({
     imports: [ProblemsModule],
@@ -20,6 +21,7 @@ import { ProblemsModule } from '@modules/problems/problems.module';
         },
         AddLikeRatingUseCase,
         AddDislikeRatingUseCase,
+        GetProblemByUuidUseCase,
         RemoveDislikeRatingUseCase,
         RemoveLikeRatingUseCase,
         ValidateExistRatingForUserUseCase
