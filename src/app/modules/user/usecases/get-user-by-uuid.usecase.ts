@@ -1,8 +1,9 @@
-import { Inject, NotFoundException } from "@nestjs/common";
+import { Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { GetUserByUuidDto } from "../dtos/get-user-by-uuid-dto";
 import { UserEntity } from "../entities/user.entity";
 import { IUserRepository } from "../repositories/user.repository";
 
+@Injectable()
 export class GetUserByUuidUseCase {
     constructor(
         @Inject('IUserRepository')

@@ -60,13 +60,12 @@ export class UserSerializer {
     static transformToEntity(input: IFetchUser){
         const entity = new UserEntity()
 
+        entity.setId(input.id)
         entity.setUuid(input.uuid)
         entity.setName(input.name)
         entity.setEmail(input.email)
         entity.setPhoto(input.photo)
         
-        
-
         return entity
     }
 

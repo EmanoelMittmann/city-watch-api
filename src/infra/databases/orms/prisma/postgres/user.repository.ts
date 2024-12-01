@@ -38,7 +38,6 @@ export class UserPostgresRepository implements IUserRepository {
             return null;
         }
 
-
         return UserSerializer.transformToEntity(user);
     }
 

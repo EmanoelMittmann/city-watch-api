@@ -28,7 +28,7 @@ import { DEFAULT_NAME_RATING } from '@shared/enums/default-name-rating.enum';
 import { ListProblemsByUserIdUseCase } from '../usecases/list-problems-by-user-id.usecase';
 import { GetUserAuth } from '@shared/decorators/get-user-auth.decorator';
 import { UserEntity } from '@modules/user/entities/user.entity';
-
+import { GetUserByUuidUseCase } from '@modules/user/usecases/get-user-by-uuid.usecase';
 @ApiBearerAuth()
 @ApiTags('Problem')
 @Controller('problem')
@@ -37,6 +37,7 @@ export class ProblemController {
         private readonly saveProblemUsecase: SaveProblemUseCase,
         private readonly updateProblemUseCase: UpdateProblemUseCase,
         private readonly countRatingByProblemUuidUseCase: CountRatingByProblemUuidUseCase,
+        private readonly getUserByUuidUseCase:GetUserByUuidUseCase,
         private readonly getProblemUseCase: GetProblemUseCase,
         private readonly listProblemsByUserIdUseCase: ListProblemsByUserIdUseCase,
         private readonly deleteProblemUseCase: DeleteProblemUseCase,
@@ -57,9 +58,12 @@ export class ProblemController {
         @Body() body: SaveProblemDto,
         @GetUserAuth() user: UserEntity,
     ): Promise<void> {
+        const getUser = await this.getUserByUuidUseCase.execute({
+            uuid: user.getUuid()
+        })
         return this.saveProblemUsecase.execute({
             ...body,
-            userId: user.getId(),
+            userId: getUser.getId(),
         });
     }
 

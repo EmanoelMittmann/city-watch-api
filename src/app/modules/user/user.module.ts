@@ -17,6 +17,6 @@ import { GetUserByUuidUseCase } from "./usecases/get-user-by-uuid.usecase";
         GetUserUseCase,
         GetUserByUuidUseCase
     ],
-    exports: ['IUserRepository']
+    exports: ['IUserRepository',GetUserByUuidUseCase]
 })
 export class UserModule {}
